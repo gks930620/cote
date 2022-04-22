@@ -5,7 +5,7 @@ public class InsertionSort {
 		int[] arr = { 1,3,4,9,6,7,8,0 };
 		insertion(arr);
 		System.out.println(Arrays.toString(arr));
-	}
+	} 
 
 	//ascending
 	static void insertion(int[] arr) {
