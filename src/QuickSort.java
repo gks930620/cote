@@ -8,7 +8,7 @@ public class QuickSort {
 	}
 	static void quickSort(int[] arr, int left, int right) {
 		
-	}
+	} 
 	
 	static void partition(int[] arr,int left,int right) {
 		int pivot= arr[right] ;  //오른쪽이 pivot  
