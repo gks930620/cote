@@ -6,6 +6,9 @@ public class QuickSort {
 		quickSort(arr,0,arr.length-1);
 		System.out.println(Arrays.toString(arr));
 	}
+	
+	//재귀 따로,    partion부분 따로 생각 
+	// partion은 한 배열에서  pivot을 기준으로 왼쪽에 작은거, 오른쪽에 큰거  배치시키는 함수 
 	static void quickSort(int[] arr, int left, int right) {
 		if(left>=right) return;
 		
@@ -17,7 +20,7 @@ public class QuickSort {
 	
 	static int partition(int[] arr,int left,int right) {
 		int pivot= arr[right] ;  //오른쪽이 pivot  
-		int i=left-1; 
+		int i=left-1;            // i : pivot보다 작은거 몇번째인지를 나타내는 기준값
 		for(int j=left; j<right ; j++) {  //작은 값들은 왼쪽으로... (arr[i]값이랑 자리 변경
 			if(arr[j] <pivot) {
 				i++;
