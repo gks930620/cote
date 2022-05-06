@@ -3,7 +3,7 @@ package datastructure;
 import java.util.Arrays;
 
 public class Heap {
-	//heap에서의 삭제는 루트노드를 삭제하는거.  이건 지금 최소힙임. 최대힙은 부호만 바꾸면 됨
+	//heap에서의 삭제는 루트노드를 삭제하는거.  이건 지금 최소힙임. 최대힙은 부호만 바꾸면 됨 . 
 	public static void main(String[] args) {
 		Heap h = new Heap();
 		h.insertHeap(13);

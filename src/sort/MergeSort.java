@@ -1,3 +1,4 @@
+package sort;
 import java.util.Arrays;
 
 public class MergeSort {
@@ -8,7 +9,7 @@ public class MergeSort {
 	}
 	
 	//재귀부분 따로,       merge부분 따로 생각하는게 핵심.
-	//각각 정렬된 2개의 배열을 한개의 배열로만들면서 정열하는 메소드
+	//merge : 각각 정렬된 2개의 배열을 한개의 배열로만들면서 정열하는 메소드
 	
 	public static void mergeSort(int[] array, int left, int right) {
 	    if (left < right) {
