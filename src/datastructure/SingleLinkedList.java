@@ -1,0 +1,81 @@
+package datastructure;
+
+public class SingleLinkedList<T> {
+	public Node<T> head=null;
+	public void addNode(T data) {
+		if(this.head==null) {
+			this.head=new Node<T>(data);
+		}else {
+			Node<T> node=this.head;
+			while(node.next!=null) {
+				node=node.next;
+			}
+			node.next=new Node<T>(data);
+		}
+	}
+	
+	
+	public void addNodeInside(T data, T isData) {
+		Node<T> searchedNode=search(isData);
+		if(searchedNode==null) {
+			addNode(data);
+		}else {
+			Node<T> originNextNode=searchedNode.next;
+			searchedNode.next=new Node<T>(data);
+			searchedNode.next.next=originNextNode;
+			
+		}
+		
+	}
+	
+	
+	public Node<T> search(T data) {
+		if(this.head==null) {
+			return null;
+		}else {
+			Node<T> node=head;
+			while(node!=null) {
+				if(node.data==data) {
+					return node;
+				}else {
+					node=node.next;
+				}
+			}
+			return null;
+		}
+	}
+	
+	//search안쓴 이유는 이전 node를 알아야하기때문에
+	public boolean delNode(T isData) {
+		if(this.head==null) {
+			return false;
+		}else {
+			Node<T> node=this.head;
+			if(node.data==isData) { //찾는게 헤드냐 
+				this.head=this.head.next; // 헤드삭제. 2번째 것이 head가 됩니다.
+				return true;
+			}else {
+				while(node.next!=null) {
+					if(node.next.data==isData) {
+						node.next=node.next.next;
+						return true;
+					}
+					node=node.next;
+				}
+				return false;
+			}
+		}
+		
+	}
+	
+	public void printAll() {
+		if(head!=null) {
+			Node<T> node=this.head;
+			System.out.println(node.data);
+			while(node.next!=null) {
+				node=node.next;
+				System.out.println(node.data);
+			}
+		}
+	}
+}
