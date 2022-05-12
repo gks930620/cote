@@ -10,8 +10,6 @@ public class BinarySearch {
 		int index= binarySearch(arr, 5);
 		System.out.println("5는 어디에 있나? => " +  index);
 	}
-	
-	
 	public static int binarySearch(int[] arr, int M) {
 		int left=0;
 		int right=arr.length-1;
@@ -28,6 +26,4 @@ public class BinarySearch {
 		}
 		return -1; //없으면 -1을 리턴하자
 	}
-	
-	
 }

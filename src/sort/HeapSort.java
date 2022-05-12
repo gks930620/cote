@@ -17,7 +17,7 @@ public class HeapSort {
 	    int n = array.length;
 	 
 	    // 현재 배열을 일단 첫번째 최대힙으로 만들어
-	    for (int i = n / 2 - 1; i >= 0; i--) { //n/2-1개의 서브트리를 조사하는거군
+	    for (int i = n / 2 - 1; i >= 0; i--) { //   n/2-1개의 서브트리를 조사하는거군
 	        heapify(array, n, i);
 	    }
 	    
