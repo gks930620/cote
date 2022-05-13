@@ -1,15 +1,13 @@
-import java.io.ObjectInputStream.GetField;
 
-import datastructure.DoubleLinkedList;
-import datastructure.MyHash;
-import datastructure.SingleLinkedList;
-
+import datastructure.*;
 public class Test {
 	public static void main(String[] args) {
-		MyHash myHash=new MyHash(20);
-		myHash.saveData("DaveLee", "01080333117");
-		myHash.saveData("fun-coding", "01080222217");
-		System.out.println(myHash.getData("DaveLee"));
+	NodeMgmt myTree=new NodeMgmt();
+	myTree.insertNode(3);
+	myTree.insertNode(1);
+	myTree.insertNode(4);
+	myTree.insertNode(9);
+	myTree.insertNode(15);
 		
 	}
 }

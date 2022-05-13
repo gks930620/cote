@@ -14,9 +14,21 @@ public class MyHash {
 	public boolean saveData(String key,String value) {
 		Integer address=this.hashFunc(key);
 		if(this.hashTable[address] !=null) {
-			this.hashTable[address].value=value;
+			Slot findSlot=this.hashTable[address];
+			Slot prevSlot=this.hashTable[address];
+			while(findSlot!=null) {
+				if(findSlot.key==key) { 
+					findSlot.value=value;
+					return true;
+				}else {
+					prevSlot=findSlot;
+					findSlot=findSlot.next;
+				}
+			}
+			prevSlot.next=new Slot(key,value);
+			
 		}else {
-			this.hashTable[address]=new Slot(value);
+			this.hashTable[address]=new Slot(key,value);
 		}
 		return true;
 	}
@@ -24,6 +36,15 @@ public class MyHash {
 	public String getData(String key) {
 		Integer address=this.hashFunc(key);
 		if(this.hashTable[address]!=null) {
+			Slot findSlot=this.hashTable[address]; //head
+			while(findSlot!=null) {
+				if(findSlot.key==key) {
+					return findSlot.value;
+				}else {
+					findSlot=findSlot.next;
+				}
+			}
+			
 			return this.hashTable[address].value;
 		}else {
 			return null;
@@ -35,8 +56,12 @@ public class MyHash {
 	
 	public class Slot{
 		String value;
-		Slot(String value) {
+		String key;
+		Slot next;
+		Slot(String key,String value) {
 			this.value=value;
+			this.key=key;
+			this.next=null;
 		}
 	}	
 }
