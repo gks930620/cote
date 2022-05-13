@@ -9,12 +9,24 @@ public class InsertionSort {
 	} 
 
 	//ascending
+//	static void insertion(int[] arr) {
+//		for(int i=1 ;i<arr.length ; i++) {
+//			int temp=arr[i];
+//			int prev=i-1;
+//			while(prev>=0&&temp < arr[prev]) {
+//				arr[prev+1]=arr[prev--];
+//			}
+//			arr[prev+1]=temp;
+//		}
+//	}
+	
 	static void insertion(int[] arr) {
-		for(int i=1 ;i<arr.length ; i++) {
-			int temp=arr[i];
+		for(int i=1 ; i<arr.length ; i++) {
+			int temp=arr[i];  
 			int prev=i-1;
-			while(prev>=0&&temp < arr[prev]) {
-				arr[prev+1]=arr[prev--];
+			while( prev>=0 &&temp<arr[prev]) {
+				arr[prev+1]=arr[prev]; //한칸씩 땡겨야하니까
+				prev--;
 			}
 			arr[prev+1]=temp;
 		}

@@ -19,8 +19,8 @@ public class SelectionSort {
 					minIndex=j;
 				}
 			}
-			arr[minIndex]=arr[i-1]; // 가장작은 값이 있던 곳에  맨 앞 데이터  
-			arr[i-1]=min;  // 맨앞데이터에 가장작은 값          교환!
+			arr[minIndex]=arr[i-1]; // 가장작은 값이 있던 곳에  맨 앞에 데이터 넣기   
+			arr[i-1]=min;  // 맨앞데이터에 가장작은 값      넣기 
 		}
 		
 	}
