@@ -1,4 +1,6 @@
 
+import java.util.ArrayList;
+
 import datastructure.*;
 public class Test {
 	public static void main(String[] args) {
@@ -8,7 +10,8 @@ public class Test {
 	myTree.insertNode(4);
 	myTree.insertNode(9);
 	myTree.insertNode(15);
-	System.out.println(myTree.search(3).value);
-		
+	System.out.println( myTree.delete(3));
+	System.out.println(myTree.search(3));
+		ArrayList<Integer> dataList=new ArrayList<Integer>();
 	}
 }
