@@ -1,4 +1,4 @@
-package datastructure;
+package fastcampus.datastructure;
 
 //완벽하진않은데 도저히 수정할 수 없더라..   나중에 강의자료 보고 다시 수정하자.
 public class NodeMgmt {

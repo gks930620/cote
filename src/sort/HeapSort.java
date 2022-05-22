@@ -1,7 +1,7 @@
 package sort;
 import java.util.Arrays;
 
-import datastructure.Heap;
+import fastcampus.datastructure.Heap;
 
 public class HeapSort {
 	public static void main(String[] args) {

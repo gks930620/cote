@@ -1,4 +1,4 @@
-package datastructure;
+package fastcampus.datastructure;
 
 public class MyHash {
 	public Slot[]  hashTable;

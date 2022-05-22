@@ -1,4 +1,4 @@
-package datastructure;
+package fastcampus.datastructure;
 
 import java.util.zip.CRC32;
 

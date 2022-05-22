@@ -1,7 +1,7 @@
-package datastructure;
+package fastcampus.datastructure;
 
 public class Node <T>{
-	// single, double ´Ù 
+	// single, double ï¿½ï¿½ 
 	
 	public T data;
 	 public Node<T> next=null;

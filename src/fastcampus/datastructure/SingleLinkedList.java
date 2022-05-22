@@ -1,4 +1,4 @@
-package datastructure;
+package fastcampus.datastructure;
 
 public class SingleLinkedList<T> {
 	public Node<T> head=null;
@@ -45,14 +45,14 @@ public class SingleLinkedList<T> {
 		}
 	}
 	
-	//search¾È¾´ ÀÌÀ¯´Â ÀÌÀü node¸¦ ¾Ë¾Æ¾ßÇÏ±â¶§¹®¿¡
+	//searchï¿½È¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ nodeï¿½ï¿½ ï¿½Ë¾Æ¾ï¿½ï¿½Ï±â¶§ï¿½ï¿½ï¿½ï¿½
 	public boolean delNode(T isData) {
 		if(this.head==null) {
 			return false;
 		}else {
 			Node<T> node=this.head;
-			if(node.data==isData) { //Ã£´Â°Ô Çìµå³Ä 
-				this.head=this.head.next; // Çìµå»èÁ¦. 2¹øÂ° °ÍÀÌ head°¡ µË´Ï´Ù.
+			if(node.data==isData) { //Ã£ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+				this.head=this.head.next; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. 2ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ headï¿½ï¿½ ï¿½Ë´Ï´ï¿½.
 				return true;
 			}else {
 				while(node.next!=null) {
