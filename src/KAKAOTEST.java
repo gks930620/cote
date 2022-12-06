@@ -13,7 +13,7 @@ public class KAKAOTEST {
 		LinkedList<Integer> list2 = new LinkedList<Integer>();
 
 
-		
+
 		list.add(5);
 		list.add(15);
 		list.add(19);

@@ -5,49 +5,49 @@ public class Main {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
+    static int N;
+    static ArrayList<Integer>[] a;
+
     static void input() {
         N = scan.nextInt();
-        col = new int[N + 1];
-    }
-
-    static int N, ans;
-    static int[] col;
-
-    static boolean attackable(int r1, int c1, int r2, int c2) {
-        if (c1 == c2) return true;
-        if (r1 - c1 == r2 - c2) return true;
-        if (r1 + c1 == r2 + c2) return true;
-        return false;
-    }
-
-    static void rec_func(int row) {
-        if (row == N + 1) {
-            ans++; 
-        } else {
-            for (int c = 1; c <= N; c++) {
-                boolean possible = true;
-                // valid check (row, c)
-                for (int i=1;i<=row-1;i++){
-                    // (i, col[i])
-                    if (attackable(row, c, i, col[i])){
-                        possible = false;
-                        break;
-                    }
-                }
-                if (possible) {
-                    col[row] = c;
-                    rec_func(row + 1);
-                    col[row] = 0;
-                }
-            }
+        a = new ArrayList[N + 1];
+        for (int color = 1; color <= N; color++) {
+            a[color] = new ArrayList<Integer>();
         }
+        for (int i = 1; i <= N; i++) {
+            int coord, color;
+            coord = scan.nextInt();
+            color = scan.nextInt();
+            // TODO: color 인 색깔의 점이 coord 에 놓여 있음
+        }
+    }
+
+    static int toLeft(int color, int idx) {
+        // TODO
+        // 색깔이 color 인 점의 idx 번째에 있는 점이 왼쪽으로 화살표를 그린다면
+        // 화살표의 길이를 return 하는 함수. 왼쪽에 점이 없다면 무한대를 return.
+    }
+
+    static int toRight(int color, int idx) {
+        // TODO
+        // 색깔이 color 인 점의 idx 번째에 있는 점이 오른쪽으로 화살표를 그린다면
+        // 화살표의 길이를 return 하는 함수. 오른쪽에 점이 없다면 무한대를 return.
+    }
+
+    static void pro() {
+        // TODO: 색깔별로 정렬하기
+
+        int ans = 0;
+        for (int color = 1; color <= N; color++) {
+            // TODO: 색깔 별로, 각 점마다 가장 가까운 점 찾아주기
+        }
+
+        // 정답 출력하기
     }
 
     public static void main(String[] args) {
         input();
-        // 1 ��° ���Һ��� M ��° ���Ҹ� ���ǿ� �°� ������ ��� ����� Ž������
-        rec_func(1);
-        System.out.println(ans);
+        pro();
     }
 
 
