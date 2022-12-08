@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BOJ1920 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
@@ -31,7 +31,7 @@ public class Main {
                 L=mid+1;
             }else{
                 //같으면 끝
-                 return true;
+                return true;
             }
         }
 

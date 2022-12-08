@@ -1,58 +1,62 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BOJ7795 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static int N,M;
-    static int[] A,B;
+    static int N, M;
+    static int[] A, B;
 
     static void input() {
         N = scan.nextInt();
+        M = scan.nextInt();
         A = new int[N + 1];
+        B = new int[M + 1];
         for (int i = 1; i <= N; i++) {
             A[i] = scan.nextInt();
         }
-        M = scan.nextInt();
-        B = new int[M + 1];
         for (int i = 1; i <= M; i++) {
             B[i] = scan.nextInt();
         }
     }
 
-    static boolean bin_search(int[] A, int L,int R, int X){
-        // A[L...R] 에서 X가 있으면 true, 없으면 false를 return 하는 함수
-        while (L<=R){
-            int mid= (L+R)/2;
-            if(A[mid]>X){
-                R=mid-1;
-            }else if (A[mid] <X){
+    static int lower_bound(int[] A, int L, int R, int X) {
+        // A[L...R] 에서 X 미만의 수(X 보다 작은 수) 중 제일 오른쪽 인덱스를 return 하는 함수
+        // 그런 게 없다면 L - 1 을 return 한다
+        int result=L-1;
+        while(L<=R){
+            int mid=(L+R)/2;
+            if(A[mid]<X){
+                result=mid;
+                //or  result=A[mid];
                 L=mid+1;
             }else{
-                //같으면 끝
-                 return true;
+                R=mid-1;
             }
         }
-
-        return false;
+        return result;
     }
 
     static void pro() {
-        // 정렬 해주기!
-        Arrays.sort(A,1,N+1);  //범위가 -2 ^31  이므로 A[0] 값은 0인데 이거 제대로 안됨. 그래서 배열 범위 정해서 정렬
+        // B 배열에 대해 이분탐색을 할 예정이니까, 정렬을 해주자!
+        // TODO
+        Arrays.sort(B);
 
-        for (int i = 1; i <= M; i++) {
-            boolean isExist=bin_search(A, 1, N,B[i]);
-            if(isExist) sb.append(1).append("\n");
-            else sb.append(0).append("\n");
+        int ans = 0;
+        for (int i = 1; i <= N; i++) {
+            ans+=lower_bound(B,1,M,A[i]);
         }
-        System.out.println(sb);
+        System.out.println(ans);
     }
 
     public static void main(String[] args) {
-        input();
-        pro();
+        int TT;
+        TT = scan.nextInt();
+        for (int tt = 1; tt <= TT; tt++) {
+            input();
+            pro();
+        }
     }
 
 
