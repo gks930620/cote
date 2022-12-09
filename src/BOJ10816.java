@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BOJ10816 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
@@ -14,7 +14,7 @@ public class Main {
         for (int i = 1; i <= N; i++) {
             A[i] = scan.nextInt();
         }
-         M = scan.nextInt();
+        M = scan.nextInt();
         B=new int[M+1];
         for (int i = 1; i <= M; i++) {
             B[i] = scan.nextInt();

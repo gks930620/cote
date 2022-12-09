@@ -1,12 +1,12 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BOJ3273 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static int N,M;
-    static int[] A,B;
+    static int N, Sum;
+    static int[] A;
 
     static void input() {
         N = scan.nextInt();
@@ -14,26 +14,35 @@ public class Main {
         for (int i = 1; i <= N; i++) {
             A[i] = scan.nextInt();
         }
-         M = scan.nextInt();
-        B=new int[M+1];
-        for (int i = 1; i <= M; i++) {
-            B[i] = scan.nextInt();
+        Sum = scan.nextInt();
+    }
+
+    static boolean bin_search(int[] A, int L, int R, int X) {
+        // A[L ... R] 에서 X 가 존재하면 true, 없으면 false 를 return 하는 함수
+        while(L<=R){
+            int mid= (L+R)/2;
+            if( A[mid] >X){ // 찾을려는 값이 왼쪽에 있다.
+                R=mid-1;
+            }else if(A[mid] <X){
+                L=mid+1;
+            }else{//찾았다.
+                return true;
+            }
         }
+        return false;
     }
 
     static void pro() {
-        //해쉬맵을 이용해 풀어보겠다... 이분탐색 상한 하한 실패 ㅠ
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for(int i=1; i<=N ; i++){
-            map.put( A[i], map.getOrDefault(A[i],0)+1 );
+        // A 에 대해 이분 탐색을 할 예정이니까, 정렬을 미리 해주자.
+        // TODO
+        Arrays.sort(A,1,N+1);
+
+        int ans = 0;
+        for (int i = 1; i <= N; i++) { //왜 N-1였지?
+            boolean isExist= bin_search(A,1,N,  Sum-A[i]);
+            if( isExist) ans++;
         }
-
-        for(int i=1 ; i<=M ; i++){
-            sb.append(map.getOrDefault(B[i],0)).append(' ');
-        }
-        System.out.println(sb.toString());
-
-
+        System.out.println(ans/2);
     }
 
     public static void main(String[] args) {
