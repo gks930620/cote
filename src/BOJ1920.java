@@ -30,7 +30,6 @@ public class BOJ1920 {
             }else if (A[mid] <X){
                 L=mid+1;
             }else{
-                //같으면 끝
                 return true;
             }
         }
