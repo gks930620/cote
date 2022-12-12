@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BOJ2343 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
