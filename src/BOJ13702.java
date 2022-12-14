@@ -1,59 +1,56 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BOJ13702 {
+    static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
+    static int K, N;
+    static int[] A;
+
     static void input() {
-        FastReader scan = new FastReader();
         N = scan.nextInt();
-        M = scan.nextInt();
-        selected = new int[M + 1];
-        used=new int [N+1];
-    }
-
-    static int N, M;
-    static int[] selected,used;
-    // Recurrence Function (재귀 함수)
-    // 만약 M 개를 전부 고름   => 조건에 맞는 탐색을 한 가지 성공한 것!
-    // 아직 M 개를 고르지 않음 => k 번째부터 M번째 원소를 조건에 맞게 고르는 모든 방법을 시도한다.
-    static void rec_func(int k) {
-        //이번엔 중복 제거
-        if(k==M+1){
-            //다 골랐다.
-            for(int i=1; i<=M ; i++){
-                sb.append(selected[i]).append(' ');
-            }
-            sb.append('\n');
-        }else{
-            for(int i=1 ; i<=N ; i++){
-               if(used[i]==1){  //i는 사용된적이 있다.
-                    continue;
-               }else{
-                   selected[k]=i;
-                   used[i]=1;
-                   rec_func(k+1);
-                   used[i]=0;
-                   selected[k]=0;
-               }
-
-            }
+        K = scan.nextInt();
+        A = new int[N + 1];
+        for (int i = 1; i <= N; i++) {
+            A[i] = scan.nextInt();
         }
     }
 
-    private static boolean notHasSelectedI (int k, int findI) {
-        for(int i=1; i<=k ; i++){
-            if(selected[i]==findI){
-                return false;
+    static boolean determination(long amount) {
+        // TODO
+        int count=0;
+        for(int i=1 ; i<=N ; i++){
+            long sum=0;
+            while(sum+amount <= A[i]){   //초과전까지
+                sum+=amount;
+                count++;
             }
         }
-        return true;
+        // K 이상에게 나눠줄 수 있으면 true  없으면 false
+        return count>=K;
+    }
+
+    static void pro() {
+        long L = 0, R = Integer.MAX_VALUE, ans = 0;
+        // [L ... R] 범위 안에 정답이 존재한다!
+        // 이분 탐색과 determination 문제를 이용해서 answer를 빠르게 구하자!
+        // TODO
+        while(L<=R){
+            long mid=(L+R)/2;
+            if(determination(mid)){     //mid의 최대값 찾기,   k 이상에게 나눠줄 수 있는가?   있으면   용량 늘려봐야지
+                L=mid+1;
+                ans=mid;
+            }else{
+                R=mid-1;
+            }
+        }
+        System.out.println(ans);
     }
 
     public static void main(String[] args) {
         input();
-        rec_func(1);
-        System.out.println(sb.toString());
+        pro();
     }
 
 

@@ -1,59 +1,59 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BOJ6236 {
+    static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
+    static int N, M;
+    static int[] A;
+
     static void input() {
-        FastReader scan = new FastReader();
         N = scan.nextInt();
         M = scan.nextInt();
-        selected = new int[M + 1];
-        used=new int [N+1];
-    }
-
-    static int N, M;
-    static int[] selected,used;
-    // Recurrence Function (재귀 함수)
-    // 만약 M 개를 전부 고름   => 조건에 맞는 탐색을 한 가지 성공한 것!
-    // 아직 M 개를 고르지 않음 => k 번째부터 M번째 원소를 조건에 맞게 고르는 모든 방법을 시도한다.
-    static void rec_func(int k) {
-        //이번엔 중복 제거
-        if(k==M+1){
-            //다 골랐다.
-            for(int i=1; i<=M ; i++){
-                sb.append(selected[i]).append(' ');
-            }
-            sb.append('\n');
-        }else{
-            for(int i=1 ; i<=N ; i++){
-               if(used[i]==1){  //i는 사용된적이 있다.
-                    continue;
-               }else{
-                   selected[k]=i;
-                   used[i]=1;
-                   rec_func(k+1);
-                   used[i]=0;
-                   selected[k]=0;
-               }
-
-            }
+        A = new int[N + 1];
+        for (int i = 1; i <= N; i++) {
+            A[i] = scan.nextInt();
         }
     }
 
-    private static boolean notHasSelectedI (int k, int findI) {
-        for(int i=1; i<=k ; i++){
-            if(selected[i]==findI){
-                return false;
+    static boolean determination(int withdrawl) {  //m번보다 많이 인출해야만 한다=>false   적게 인출하는경우는 내 맘대로 다시 인출 가능. true
+        // TODO
+        int count=1;
+        int sum=0;
+        for(int i=1 ; i<=N ; i++){
+            if(  withdrawl <sum+A[i] ){  //초과하면
+                count++;
+                sum=0;
+            }
+            sum += A[i];
+        }
+        return count>M ? false : true;
+    }
+
+    static void pro() {
+        int max=A[1];
+        for(int i=2 ; i<=N ; i++){
+            max=Math.max(max,A[i]);
+        }
+        int L = max, R = 1000000000, ans = 0;   // R은 충분히 커야되고   L 은 적어도 하루 사용금액보다는 커야.
+
+        while(L<=R ){
+            int mid=(L+R)/2;
+            if( determination(mid)){    // m번  이하로 인출 가능 => 돈 더 줄여봐.
+                R=mid-1;
+                ans=mid;
+            }else{        //많이 인출해야만한다 ?  돈 더 늘려야지..
+                L=mid+1;
             }
         }
-        return true;
+
+        System.out.println(ans);
     }
 
     public static void main(String[] args) {
         input();
-        rec_func(1);
-        System.out.println(sb.toString());
+        pro();
     }
 
 

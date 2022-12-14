@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BOJ15649 {
     static StringBuilder sb = new StringBuilder();
 
     static void input() {
@@ -27,15 +27,15 @@ public class Main {
             sb.append('\n');
         }else{
             for(int i=1 ; i<=N ; i++){
-               if(used[i]==1){  //i는 사용된적이 있다.
+                if(used[i]==1){  //i는 사용된적이 있다.
                     continue;
-               }else{
-                   selected[k]=i;
-                   used[i]=1;
-                   rec_func(k+1);
-                   used[i]=0;
-                   selected[k]=0;
-               }
+                }else{
+                    selected[k]=i;
+                    used[i]=1;
+                    rec_func(k+1);
+                    used[i]=0;
+                    selected[k]=0;
+                }
 
             }
         }
