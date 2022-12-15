@@ -1,8 +1,7 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
-public class Main {
+public class BOJ15652 {
     static StringBuilder sb = new StringBuilder();
 
     static void input() {
@@ -10,15 +9,10 @@ public class Main {
         N = scan.nextInt();
         M = scan.nextInt();
         selected = new int[M + 1];
-        used = new int[N+1];
-        A = new int[N + 1];
-        for (int i = 1; i <= N; i++) {
-            A[i] = scan.nextInt();
-        }
     }
 
     static int N, M;
-    static int[] A, selected, used;
+    static int[] selected;
 
     // Recurrence Function (재귀 함수)
     // 만약 M 개를 전부 고름   => 조건에 맞는 탐색을 한 가지 성공한 것!
@@ -28,15 +22,27 @@ public class Main {
             for (int i = 1; i <= M; i++) sb.append(selected[i]).append(' ');
             sb.append('\n');
         } else {
+            if (k == 1) {
+                for(int i=1; i<=N ; i++){
+                    selected[k] = i;
+                    rec_func(k + 1);
+                    selected[k] = 0;
+                }
+            } else {
+                for (int i = selected[k - 1]; i <= N; i++) { // 그 전값보다 +1 부터 조사해야지
+                    selected[k] = i;
+                    rec_func(k + 1);
+                    selected[k] = 0;
+
+                }
+            }
         }
     }
 
-    //15663 다시 도전!!  인데 너무어렵다
     public static void main(String[] args) {
         input();
+
         // 1 번째 원소부터 M 번째 원소를 조건에 맞는 모든 방법을 찾아줘
-        //사전순이니까 정렬
-        Arrays.sort(A, 1, N + 1);
         rec_func(1);
         System.out.println(sb.toString());
 
