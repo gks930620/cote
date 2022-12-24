@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BOJ1759 {
     static StringBuilder sb = new StringBuilder();
 
     static void input() {
@@ -47,9 +47,9 @@ public class Main {
 
         } else {
             for (int i = selected[k - 1] + 1; i <= N; i++) {  // 정렬한 상태에서  a선택했으면 a이후것만 선택하게..   오름차순인건 여기서 만족했으니까.
-                    selected[k] = i;  //이번에 선택된거
-                    rec_func(k + 1);
-                    selected[k] = 0;
+                selected[k] = i;  //이번에 선택된거
+                rec_func(k + 1);
+                selected[k] = 0;
             }
         }
     }
