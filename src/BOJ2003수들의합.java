@@ -1,34 +1,35 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BOJ2003수들의합 {
     static StringBuilder sb = new StringBuilder();
     static FastReader scan = new FastReader();
 
-    static int n, K;
-    static int[] A;
+    static int n, S;
+    static int[] a;
 
     static void input() {
         n = scan.nextInt();
-        K =scan.nextInt();
-        A = new int[n + 1];
+        S = scan.nextInt();
+        a = new int[n + 1];
         for (int i = 1; i <= n; i++) {
-            A[i] = scan.nextInt();
+            a[i] = scan.nextInt();
         }
     }
 
     static void pro() {
-        int R = 0, sum = 0,  ans = -100 * n;
-        for (int L = 1; L + K - 1 <= n; L++) {
+        int R = 0, sum = 0, ans = 0;
+        for (int L = 1; L <= n; L++) {
             // L - 1 을 구간에서 제외하기
-            sum-=A[L-1];
+            sum -= a[L - 1];
+
             // R 을 옮길 수 있을 때 까지 옮기기
-            while (R+1 <=L + K - 1 ){
-                R++;
-                sum+=A[R];
-            }
+            while (R + 1 <= n && sum < S)
+                sum += a[++R];
+
             // [L ... R] 의 합, 즉 sum이 조건을 만족하면 정답 갱신하기
-            ans=Math.max(ans,sum);
+            if (sum == S)
+                ans++;
         }
 
         System.out.println(ans);

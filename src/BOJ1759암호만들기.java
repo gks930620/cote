@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class BOJ1759 {
+public class BOJ1759암호만들기 {
     static StringBuilder sb = new StringBuilder();
 
     static void input() {

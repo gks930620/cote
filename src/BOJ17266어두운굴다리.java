@@ -1,36 +1,47 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
-    static StringBuilder sb = new StringBuilder();
+public class BOJ17266어두운굴다리 {
     static FastReader scan = new FastReader();
+    static StringBuilder sb = new StringBuilder();
 
-    static int n, K;
+    static int N, M;
     static int[] A;
 
     static void input() {
-        n = scan.nextInt();
-        K =scan.nextInt();
-        A = new int[n + 1];
-        for (int i = 1; i <= n; i++) {
+        N = scan.nextInt(); //줄다리 길이
+        M = scan.nextInt(); //가로등 개수
+        A = new int[M + 1];  //가로등의 위치  .  오름차순임
+        for (int i = 1; i <= M; i++) {
             A[i] = scan.nextInt();
         }
     }
 
-    static void pro() {
-        int R = 0, sum = 0,  ans = -100 * n;
-        for (int L = 1; L + K - 1 <= n; L++) {
-            // L - 1 을 구간에서 제외하기
-            sum-=A[L-1];
-            // R 을 옮길 수 있을 때 까지 옮기기
-            while (R+1 <=L + K - 1 ){
-                R++;
-                sum+=A[R];
-            }
-            // [L ... R] 의 합, 즉 sum이 조건을 만족하면 정답 갱신하기
-            ans=Math.max(ans,sum);
-        }
 
+    static boolean determination(int height) {
+        int last = 0;  // 밝혀진 마지막 위치
+        for (int i = 1; i <= M; i++) {
+            if (A[i] - last <= height) {
+                last = A[i] + height;
+            } else {
+                return false;
+            }
+        }
+        return last >= N;
+    }
+
+    static void pro() {
+        int L = 0, R = N, ans = N;
+        Arrays.sort(A, 1, M + 1);
+        while(L<=R){
+            int mid= (L+R)/2;
+            if(determination(mid)){  //밝혀진다?   더 줄여보자
+                R=mid-1;
+                ans=mid;
+            }else{  //안 밝혀짐.. 높여야됨
+                L=mid+1;
+            }
+        }
         System.out.println(ans);
     }
 
@@ -38,6 +49,7 @@ public class Main {
         input();
         pro();
     }
+
 
     static class FastReader {
         BufferedReader br;
