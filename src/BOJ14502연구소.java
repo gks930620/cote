@@ -6,7 +6,7 @@ import java.util.*;
 //다시해보자.   14502 연구소 뻑킹
 //B가 오름차순, 중복x 할려면?     BOJ15650참고.   전에거보다 높은데서 for문 돌려야지.   이게 어려웠다.
 //bfs는 쉽네..
-public class Main {
+public class BOJ14502연구소 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
@@ -50,7 +50,7 @@ public class Main {
         }
 
         while (!que.isEmpty()){
-          //  que에 넣을 때 true를 해줘야 함.  실제 방문한 건 뺄때처럼보이지만,     여러곳에서 넣을 때 같은 곳을 중첩되서 넣을 수도 있음.. 그러니까 넣을 떄 true해줘야함
+            //  que에 넣을 때 true를 해줘야 함.  실제 방문한 건 뺄때처럼보이지만,     여러곳에서 넣을 때 같은 곳을 중첩되서 넣을 수도 있음.. 그러니까 넣을 떄 true해줘야함
             State state = que.poll();
             int x=state.x;
             int y=state.y;
