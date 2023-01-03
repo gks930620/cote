@@ -2,7 +2,7 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class Main {
+public class BOJ7569토마토3차원 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
@@ -33,17 +33,17 @@ public class Main {
         for(int i=0 ; i<H ; i++){
             for(int j=0 ; j<N ; j++){
                 for(int k=0; k<M ; k++){
-                  if(a[i][j][k] == 1){
-                      que.add(i);  
-                      que.add(j);
-                      que.add(k);   //  높이, 세로, 가로순으로 넣음
-                      dist[i][j][k]=0;
-                  }
+                    if(a[i][j][k] == 1){
+                        que.add(i);
+                        que.add(j);
+                        que.add(k);   //  높이, 세로, 가로순으로 넣음
+                        dist[i][j][k]=0;
+                    }
                 }
             }
         }
 
-        while (!que.isEmpty()){   
+        while (!que.isEmpty()){
             int x=que.poll();    //높이
             int y=que.poll();   //세로
             int z=que.poll();    //가로   수학버려.. 이차함수 버려
