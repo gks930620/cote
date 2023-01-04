@@ -6,91 +6,51 @@ public class Main {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static int N, M, H;
-    static int[][][] dist, a;
-    static int[][] dir = { {1,0,0,},{-1,0,0},{0,1,0},{0,-1,0},{0,0,1}, {0,0,-1} };
+    static int N, root, erased;
+    static ArrayList<Integer>[] child;
+    static int[] leaf;
 
     static void input() {
-        M = scan.nextInt(); //가로
-        N = scan.nextInt(); //세로
-        H = scan.nextInt();   // 높이    ( x,y,z)는   가로 세로 높이.   for( k 높이 먼저,    세로    가로 순)
-        /* TODO */
-        a= new int[H][N][M];
-        dist=new int[H][N][M];
-        for(int i=0 ; i<H ; i++){
-            for(int j=0 ; j<N ; j++){
-                for(int k=0; k<M ; k++){
-                    a[i][j][k]=scan.nextInt();
-                }
+        N = scan.nextInt();
+        /* TODO  트리 인정리스트 구성하기   0번부터니까  0~N-1로 한다.*/
+        leaf=new int[N];
+        child=new ArrayList[N];
+        for(int i=0 ; i<N ; i++) child[i]=new ArrayList<>();
+        for(int i=0; i<N ; i++){
+            int par=scan.nextInt();
+            if(par ==-1){
+                root=i;
+                continue;
             }
+            child[par].add(i);           //양쪽으로 안하고 한쪽만해도되나?   부모에서 자식으로만 간선 저장
         }
-
+        erased=scan.nextInt();
     }
 
-    static void bfs() {
+    // dfs(x, par) := 정점 x 의 부모가 par 였고, Subtree(x) 의 leaf 개수를 세주는 함수
+    static void dfs(int x) {
         /* TODO */
-        Queue<Integer> que=new LinkedList<>();
-        for(int i=0 ; i<H ; i++){
-            for(int j=0 ; j<N ; j++){
-                for(int k=0; k<M ; k++){
-                  if(a[i][j][k] == 1){
-                      que.add(i);  
-                      que.add(j);
-                      que.add(k);   //  높이, 세로, 가로순으로 넣음
-                      dist[i][j][k]=0;
-                  }
-                }
-            }
-        }
-
-        while (!que.isEmpty()){   
-            int x=que.poll();    //높이
-            int y=que.poll();   //세로
-            int z=que.poll();    //가로   수학버려.. 이차함수 버려
-
-            for(int[] direction : dir){
-                int nx=x+direction[0];
-                int ny=y+direction[1];
-                int nz=z+direction[2];
-
-                if( nx<0 ||ny <0 ||nz <0 ||   nx>=H || ny>=N || nz>=M) continue;
-                if(a[nx][ny][nz]!=0 ) continue;
-
-                a[nx][ny][nz]=1;
-                que.add(nx);
-                que.add(ny);
-                que.add(nz);
-                dist[nx][ny][nz]=dist[x][y][z]+1;
+        if(child[x].isEmpty()){
+            leaf[x]=1;  //내가 바로 leaf node
+        }else{
+            for(int y : child[x]){
+                dfs(y);
+                leaf[x]+=leaf[y];
             }
         }
 
     }
 
     static void pro() {
+        // erased와 그의 부모 사이의 연결을 끊어주기
         /* TODO */
-        for(int i=0 ; i<H ; i++){
-            for(int j=0 ; j<N ; j++){
-                for(int k=0; k<M ; k++){
-                    dist[i][j][k]=-1;
-                }
+        for(int i=0; i<N ; i++){
+            if(child[i].contains(erased)){
+                child[i].remove(child[i].indexOf(erased));  //그 아래 자식들 다 안끊어도 됨. dfs할 때 어차피 안감
             }
         }
-        bfs();
-
-
-        int max=Integer.MIN_VALUE;
-        boolean isThereZero=false;
-        for(int i=0 ; i<H ; i++){
-            for(int j=0 ; j<N ; j++){
-                for(int k=0; k<M ; k++){
-                    if(a[i][j][k]==0) isThereZero=true;
-                    max=Math.max(dist[i][j][k],max);
-                }
-            }
-        }
-
-        if(isThereZero) System.out.println(-1);
-        else System.out.println(max);
+        if(root !=erased) dfs(root);
+        System.out.println(leaf[root]);
 
     }
 
