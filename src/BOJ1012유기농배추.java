@@ -2,68 +2,64 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class Main {
+public class BOJ1012유기농배추 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static int N, M, totalSheep, totalWolf, sheep, wolf;
-    static String[] a;
+    static int N, M, K;
+    static int[][] a;
     static boolean[][] visit;
     static int[][] dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
     static void input() {
-        N = scan.nextInt();
         M = scan.nextInt();
-        a = new String[N];
-        for (int i = 0; i < N; i++)
-            a[i] = scan.nextLine();
+        N = scan.nextInt();
+        K = scan.nextInt();
+        a = new int[N][M];
+        for (int i = 0; i < K; i++) {
+            int y = scan.nextInt(), x = scan.nextInt();
+            a[x][y] = 1;
+        }
         visit = new boolean[N][M];
     }
 
     // x, y 를 갈 수 있다는 걸 알고 방문한 상태
     static void dfs(int x, int y) {
-        // 연결된 영역 안에서 양과 늑대의 수를 계산하자.
-        /* TODO */
-        visit[x][y]=true;
-        if(a[x].charAt(y)=='o') sheep++;
-        if(a[x].charAt(y)=='v') wolf++;
+        visit[x][y] = true;
         for(int[] direction : dir){
             int nx=x+direction[0];
-            int ny=y+ direction[1];
+            int ny=y+direction[1];
             if (nx < 0 || ny < 0 || nx >= N || ny >= M) continue;  // 지도를 벗어나는 곳으로 가는가?
-            if(a[nx].charAt(ny)=='#') continue;
-            if(visit[nx][ny]) continue;
+            if(visit[nx][ny]==true) continue;
+            if(a[nx][ny]!=1) continue;
             dfs(nx,ny);
         }
+
 
     }
 
     static void pro() {
+        int ans = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
-                if (!visit[i][j] && a[i].charAt(j) != '#') {
-                    // 갈 수 있는 칸인데, 아직 방문하지 않은, 즉 새롭게 만난 구역인 경우!
+                if (!visit[i][j] && a[i][j] == 1) {
+                    // 새로운 배추흰지렁이 발견!
                     /* TODO */
-                    sheep=0;
-                    wolf=0;  //새롭게 만난구역의 늑대 양 초기화
-                    dfs(i,j);
-                    if(sheep<= wolf) sheep=0;
-                    else{
-                        wolf=0;
-                    }
-                    totalSheep+=sheep;
-                    totalWolf+=wolf;
+                    visit[i][j]=true;
+                    dfs(i,j); //탐험하면 모든 연결된 곳의 visit을 true로 바꿈.
+                    ans++;
                 }
             }
         }
-
-        sb.append(totalSheep).append(' ').append(totalWolf);
-        System.out.println(sb.toString());
+        System.out.println(ans);
     }
 
     public static void main(String[] args) {
-        input();
-        pro();
+        int T = scan.nextInt();
+        while (T-- > 0) {
+            input();
+            pro();
+        }
     }
 
 
