@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BOJ11728배열합치기 {  //2포인터지만 배열정렬로 충분
     static StringBuilder sb = new StringBuilder();
     static FastReader scan = new FastReader();
 
