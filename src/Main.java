@@ -1,49 +1,78 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
-    static StringBuilder sb = new StringBuilder();
+    //문제 이해가 어려웠다.
+   /*       4 2
+            2 1 2
+            4 3 2
+            1 4 3
+            1 2
+            3 2
+
+
+            첫째줄의 4(N)는    2 1 2     4, 3, 2       1,4,3  와 같이 3(N-1)개의  개수를 의미한다.    각각은  2->1번으로 가는 거리.
+
+            첫째줄의   2(M)은     1,2    3,2처럼     1 ->2,   3->2 가는 거리가 몇 인지 출력해달라는 개수를 의미한다.
+    */
     static FastReader scan = new FastReader();
+    static StringBuilder sb = new StringBuilder();
 
+    static class Edge {
+        int y, c;
+        Edge(int y,int c){
+            this.y = y;
+            this.c = c;
+        }
+    }
     static int n, m;
-    static int[] a, b;
+    static ArrayList<Edge>[] con;
 
-    static void input() {
+    static void input() throws IOException {
         n = scan.nextInt();
         m = scan.nextInt();
-        a = new int[n];
-        b = new int[m];
-        for (int i = 0; i < n; i++) {
-            a[i] = scan.nextInt();
-        }
-        for (int i = 0; i < m; i++) {
-            b[i] = scan.nextInt();
+        con = new ArrayList[n + 1];
+        for (int i=1;i<=n;i++) con[i]=new ArrayList<>();
+        for (int i=1;i<n;i++){
+            int x=scan.nextInt(), y=scan.nextInt(), c=scan.nextInt();
+            con[x].add(new Edge(y, c));
+            con[y].add(new Edge(x, c));
         }
     }
 
-    static void pro() {
-        int L = 1, R = 1;
-        // a와 b를 앞에서부터 하나씩 추출해서 출력한다. 단, 둘 다 비어있지 않은 경우와 그것이 아닌 경우를 잘 나누자.
+    static int ans;
+    // 현재 x 에 있으며, 부모 노드는 prev 이며, 목표 지점은 goal,
+    // 그리고 root부터 지금까지 이동 거리가 dist 이다.
+    // 잘못된 길로 간다면, 끝까지 탐색하고 for문에서 끝나고 되돌아옴.
+    static void DFS(int x,int prev, int goal, int dist){
         /* TODO */
-        int[] sumArray=new int[n+m];
-        for(int i=0 ; i<n ; i++){
-            sumArray[i]=a[i];
+        if(x== goal) { //목표도착
+            ans=dist;
+            return;
         }
-        for(int i=n ; i<n+m ; i++){
-            sumArray[i]=b[i-n];
+        //x에서 갈 수 있는 모든 곳 찾기
+        for( Edge edge   : con[x]){
+            if (edge.y == prev) continue;
+            DFS(edge.y, x, goal , dist+edge.c );  //트리니까 무조건 도착함. 길은 하나임.
         }
-        Arrays.sort(sumArray);
+    }
+    static void pro() {
+        /* TODO */
+        int x = scan.nextInt(), y = scan.nextInt();
+        DFS(x, -1, y, 0);   //x에서 y까지의 거리를 구하는 함수.
+        System.out.println(ans);
 
-        for(int ele : sumArray){
-            sb.append(ele).append(' ');
-        }
-        System.out.println(sb.toString());
+
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         input();
-        pro();
+        while (m-- > 0) {
+            pro();
+        }
     }
+
 
     static class FastReader {
         BufferedReader br;
