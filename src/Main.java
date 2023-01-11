@@ -3,74 +3,55 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
-    //문제 이해가 어려웠다.
-   /*       4 2
-            2 1 2
-            4 3 2
-            1 4 3
-            1 2
-            3 2
-
-
-            첫째줄의 4(N)는    2 1 2     4, 3, 2       1,4,3  와 같이 3(N-1)개의  개수를 의미한다.    각각은  2->1번으로 가는 거리.
-
-            첫째줄의   2(M)은     1,2    3,2처럼     1 ->2,   3->2 가는 거리가 몇 인지 출력해달라는 개수를 의미한다.
-    */
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static class Edge {
-        int y, c;
-        Edge(int y,int c){
-            this.y = y;
-            this.c = c;
-        }
-    }
-    static int n, m;
-    static ArrayList<Edge>[] con;
+    static int N, M;
+    static int[] indeg;
+    static ArrayList<Integer>[] adj;
 
-    static void input() throws IOException {
-        n = scan.nextInt();
-        m = scan.nextInt();
-        con = new ArrayList[n + 1];
-        for (int i=1;i<=n;i++) con[i]=new ArrayList<>();
-        for (int i=1;i<n;i++){
-            int x=scan.nextInt(), y=scan.nextInt(), c=scan.nextInt();
-            con[x].add(new Edge(y, c));
-            con[y].add(new Edge(x, c));
-        }
-    }
-
-    static int ans;
-    // 현재 x 에 있으며, 부모 노드는 prev 이며, 목표 지점은 goal,
-    // 그리고 root부터 지금까지 이동 거리가 dist 이다.
-    // 잘못된 길로 간다면, 끝까지 탐색하고 for문에서 끝나고 되돌아옴.
-    static void DFS(int x,int prev, int goal, int dist){
+    static void input() {
+        // Adjacent List 생성 및 indegree 계산하기
         /* TODO */
-        if(x== goal) { //목표도착
-            ans=dist;
-            return;
-        }
-        //x에서 갈 수 있는 모든 곳 찾기
-        for( Edge edge   : con[x]){
-            if (edge.y == prev) continue;
-            DFS(edge.y, x, goal , dist+edge.c );  //트리니까 무조건 도착함. 길은 하나임.
+        N= scan.nextInt();
+        M=scan.nextInt();
+        indeg=new int[N+1];
+        adj=new ArrayList[N+1];   // i번째  List에는 목표지점들
+        for(int i=1 ; i<=N ; i++) adj[i]=new ArrayList<>();
+        for(int i=1; i<=M ; i++){  //단순 횟수
+            int x=scan.nextInt();
+            int y=scan.nextInt();
+            adj[x].add(y);    //반대편은 하면 안된다. 이 문제에서는 방향이 있기 때문
+            indeg[y]++;   //y로 들어오는 간선 개수
         }
     }
+
     static void pro() {
+        Deque<Integer> queue = new LinkedList<>();
+        // 제일 앞에 "정렬될 수 있는" 정점 찾기
         /* TODO */
-        int x = scan.nextInt(), y = scan.nextInt();
-        DFS(x, -1, y, 0);   //x에서 y까지의 거리를 구하는 함수.
-        System.out.println(ans);
-
-
+        for(int i=1 ; i<=N ; i++){
+            if(indeg[i]==0) queue.add(i);
+        }
+        // 정렬될 수 있는 정점이 있다면?
+        // 1. 정렬 결과에 추가하기
+        // 2. 정점과 연결된 간선 제거하기
+        // 3. 새롭에 "정렬 될 수 있는" 정점
+        /* TODO */
+        while (!queue.isEmpty()){
+            int x=queue.poll();
+            sb.append(x).append(' ');
+            for(int y : adj[x]){
+                indeg[y]--;
+                if(indeg[y]==0) queue.add(y);
+            }
+        }
+        System.out.println(sb.toString());
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         input();
-        while (m-- > 0) {
-            pro();
-        }
+        pro();
     }
 
 
