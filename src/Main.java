@@ -7,51 +7,57 @@ public class Main {
     static StringBuilder sb = new StringBuilder();
 
     static int N, M;
-    static int[] indeg;
+    static int[] indeg, T_done, T;
     static ArrayList<Integer>[] adj;
 
     static void input() {
-        // Adjacent List 생성 및 indegree 계산하기
-        /* TODO */
-        N= scan.nextInt();
-        M=scan.nextInt();
-        indeg=new int[N+1];
-        adj=new ArrayList[N+1];   // i번째  List에는 목표지점들
-        for(int i=1 ; i<=N ; i++) adj[i]=new ArrayList<>();
-        for(int i=1; i<=M ; i++){  //단순 횟수
-            int x=scan.nextInt();
-            int y=scan.nextInt();
-            adj[x].add(y);    //반대편은 하면 안된다. 이 문제에서는 방향이 있기 때문
-            indeg[y]++;   //y로 들어오는 간선 개수
+        N = scan.nextInt();
+        M = scan.nextInt();
+        adj = new ArrayList[N + 1];
+        indeg = new int[N + 1];
+        T = new int[N + 1];
+        T_done = new int[N + 1];
+        for (int i = 1; i <= N; i++) {
+            adj[i] = new ArrayList<>();
+            T[i] = scan.nextInt();
+        }
+        for (int i = 0; i < M; i++) {
+            int x = scan.nextInt(), y = scan.nextInt();
+            adj[x].add(y);
+            // indegree 계산하기
+            indeg[y]++;
         }
     }
 
     static void pro() {
         Deque<Integer> queue = new LinkedList<>();
         // 제일 앞에 "정렬될 수 있는" 정점 찾기
-        /* TODO */
-        for(int i=1 ; i<=N ; i++){
-            if(indeg[i]==0) queue.add(i);
-        }
-        // 정렬될 수 있는 정점이 있다면?
-        // 1. 정렬 결과에 추가하기
-        // 2. 정점과 연결된 간선 제거하기
-        // 3. 새롭에 "정렬 될 수 있는" 정점
-        /* TODO */
-        while (!queue.isEmpty()){
-            int x=queue.poll();
-            sb.append(x).append(' ');
-            for(int y : adj[x]){
+        for (int i = 1; i <= N; i++)
+            if (indeg[i] == 0) {
+                queue.add(i);
+                T_done[i] = T[i];
+            }
+
+        // 위상 정렬 순서대로 T_done 계산을 함께 해주기
+        while (!queue.isEmpty()) {
+            int x = queue.poll();
+            for (int y : adj[x]) {
                 indeg[y]--;
-                if(indeg[y]==0) queue.add(y);
+                if (indeg[y] == 0) queue.add(y);
+                T_done[y] = Math.max(T_done[y], T_done[x] + T[y]);
             }
         }
-        System.out.println(sb.toString());
+        int W = scan.nextInt();
+        System.out.println(T_done[W]);
     }
 
     public static void main(String[] args) {
-        input();
-        pro();
+        int Q = scan.nextInt();
+        while (Q > 0) {
+            Q--;
+            input();
+            pro();
+        }
     }
 
 
