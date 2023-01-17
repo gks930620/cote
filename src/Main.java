@@ -6,56 +6,55 @@ public class Main {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static int N, M;
-    static int[] indeg, T_done, T;
-    static ArrayList<Integer>[] adj;
+    static int w, h;
+    static int[][] a;
+    static boolean[][] visit;
+    static int[][] dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+
 
     static void input() {
-        N = scan.nextInt();
-        M = scan.nextInt();
-        adj = new ArrayList[N + 1];
-        indeg = new int[N + 1];
-        T = new int[N + 1];
-        T_done = new int[N + 1];
-        for (int i = 1; i <= N; i++) {
-            adj[i] = new ArrayList<>();
-            T[i] = scan.nextInt();
+        w = scan.nextInt();
+       h = scan.nextInt();
+        a = new int[w+1][h+1];
+        for (int i = 1; i <= h; i++){
+            for (int j = 1; j <= w; j++){
+                    a[j][i] = scan.nextInt();   //    x는 가로, y는 세로
+            }
         }
-        for (int i = 0; i < M; i++) {
-            int x = scan.nextInt(), y = scan.nextInt();
-            adj[x].add(y);
-            // indegree 계산하기
-            indeg[y]++;
+        visit = new boolean[w+1][h+1];
+    }
+
+    // x, y 를 갈 수 있다는 걸 알고 방문한 상태
+    static void dfs(int x, int y) {
+        visit[x][y]=true;
+
+        for(int[] direction : dir){
+            int nx= x+direction[0];
+            int ny= y+direction[1];
+            if(nx <=0  || ny<=0 || nx>w || ny>h) continue;
+            if(a[nx][ny]!=1) continue;
+            if(visit[nx][ny]) continue;
+            dfs(nx, ny);
         }
     }
 
     static void pro() {
-        Deque<Integer> queue = new LinkedList<>();
-        // 제일 앞에 "정렬될 수 있는" 정점 찾기
-        for (int i = 1; i <= N; i++)
-            if (indeg[i] == 0) {
-                queue.add(i);
-                T_done[i] = T[i];
-            }
-
-        // 위상 정렬 순서대로 T_done 계산을 함께 해주기
-        while (!queue.isEmpty()) {
-            int x = queue.poll();
-            for (int y : adj[x]) {
-                indeg[y]--;
-                if (indeg[y] == 0) queue.add(y);
-                T_done[y] = Math.max(T_done[y], T_done[x] + T[y]);
+       int ans=0;
+        for(int i=1 ; i<=h ; i++){
+            for(int j=1 ; j<=w ; j++){
+                if(!visit[j][i] && a[j][i]==1){
+                    ans++;
+                    dfs(j,i);
+                }
             }
         }
-        int W = scan.nextInt();
-        System.out.println(T_done[W]);
+        System.out.println(ans);
     }
 
     public static void main(String[] args) {
-        int Q = scan.nextInt();
-        while (Q > 0) {
-            Q--;
+        while (true) {
             input();
+            if (w == 0 && h == 0) break;
             pro();
         }
     }
