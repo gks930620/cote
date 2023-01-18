@@ -2,7 +2,7 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class Main {
+public class BOJ1516게임개발 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
@@ -11,7 +11,7 @@ public class Main {
     static ArrayList<Integer>[] adj;
 
 
-//    5
+    //    5
 //            10 -1   1번이 최초
 //            10 1 -1   2번은 1번 지은뒤
 //            4 1 -1    3번도 1번지은뒤
