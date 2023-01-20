@@ -3,66 +3,55 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
+    //문제 이해가 어려웠다.
+   /*       4 2
+            2 1 2
+            4 3 2
+            1 4 3
+            1 2
+            3 2
+            첫째줄의 4(N)는    2 1 2     4, 3, 2       1,4,3  와 같이 3(N-1)개의  개수를 의미한다.    각각은  2->1번으로 가는 거리.
+            첫째줄의   2(M)은     1,2    3,2처럼     1 ->2,   3->2 가는 거리가 몇 인지 출력해달라는 개수를 의미한다.
+    */
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
-
-    static int N, M;
-    static int[] indeg, T_done, T;
-    static ArrayList<Integer>[] adj;
-
-    static void input() {
-        N = scan.nextInt();
-        adj = new ArrayList[N + 1];
-        indeg = new int[N + 1];
-        T = new int[N + 1];
-        T_done = new int[N + 1];
-        for (int i = 1; i <= N; i++) {
-            adj[i] = new ArrayList<>();
+    static class Edge {
+        int y, cost;
+        Edge(int y,int cost){
+            this.y = y;
+            this.cost = cost;
         }
-        /* TODO */
-        for (int i = 1; i <= N; i++) {
-            int time = scan.nextInt();
-            T[i] = time;
+    }
+    static int n, m;
+    static ArrayList<Edge>[] con;
 
-            int preCount = scan.nextInt();
-            for (int j = 0; j < preCount; j++) {
-                int pre = scan.nextInt();
-                adj[pre].add(i );     //pre에서 i 로 가는거니까...
-                indeg[i]++;
-            }
+    static void input() throws IOException {
+        n = scan.nextInt();
+        m = scan.nextInt();
+        con = new ArrayList[n + 1];
+        for (int i=1;i<=n;i++) con[i]=new ArrayList<>();
+        for (int i=1;i<n;i++){
+            int x=scan.nextInt(), y=scan.nextInt(), c=scan.nextInt();
+            con[x].add(new Edge(y, c));
+            con[y].add(new Edge(x, c));
         }
     }
 
+    static int ans;
+    // 현재 x 에 있으며, 부모 노드는 prev 이며, 목표 지점은 goal,
+    // 그리고 root부터 지금까지 이동 거리가 dist 이다.
+    static void DFS(int x,int prev, int goal, int dist){
+        /* TODO */
+    }
     static void pro() {
         /* TODO */
-        Deque<Integer> queue= new LinkedList<>();
-        for(int i=1 ; i<=N ; i++){
-            if(indeg[i]==0) {
-                queue.add(i) ; //첫 시작 점들
-                T_done[i] = T[i];   //이거 빼먹으면 안되지...
-            }
-        }
-        while (!queue.isEmpty()){
-            int x=queue.poll();
-            for(int y : adj[x]){
-                indeg[y]--;
-                T_done[y]=Math.max(T_done[y], T[y]+T_done[x]  );
-                if(indeg[y]==0) queue.add(y);
-            }
-        }
-
-        int max=Integer.MIN_VALUE;
-        for(int i=1; i<=N ; i++){
-            max=Math.max(max,T_done[i]);
-        }
-        System.out.println(max);
-
-
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         input();
-        pro();
+        while (m-- > 0) {
+            pro();
+        }
     }
 
 
