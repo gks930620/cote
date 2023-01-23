@@ -2,7 +2,7 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class Main {
+public class BOJ1240노드사이의거리 {
     //문제 이해가 어려웠다.
    /*       4 2
             2 1 2
