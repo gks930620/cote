@@ -1,77 +1,74 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
-    //문제 이해가 어려웠다.
-   /*       4 2
-            2 1 2
-            4 3 2
-            1 4 3
-            1 2
-            3 2
-            첫째줄의 4(N)는    2 1 2     4, 3, 2       1,4,3  와 같이 3(N-1)개의  개수를 의미한다.    각각은  2->1번으로 가는 거리 2.   4->3으로 가는 거리 2
-            첫째줄의   2(M)은     1,2    3,2처럼     1 ->2,   3->2 가는 거리가 몇 인지 출력해달라는 개수를 의미한다.
-
-    */
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static class Edge {
-        int y, c;
-        Edge(int y,int c){
-            this.y = y;
-            this.c = c;
-        }
-    }
-    static int n, m;
-    static ArrayList<Edge>[] con;
+    static void input() {
+        N = scan.nextInt();
+        nums = new int[N + 1];
+        operators = new int[5];   // operatios[1]    + 의 개수
+        order = new int[N + 1];
+        for (int i = 1; i <= N; i++)
+            nums[i] = scan.nextInt();
+        for (int i = 1; i <= 4; i++)
+            operators[i] = scan.nextInt();
 
-    static void input() throws IOException {
-        n = scan.nextInt();
-        m = scan.nextInt();
-        con = new ArrayList[n + 1];
-        for (int i=1;i<=n;i++) con[i]=new ArrayList<>();
-        for (int i=1;i<n;i++){
-            int x=scan.nextInt(), y=scan.nextInt(), c=scan.nextInt();
-            con[x].add(new Edge(y, c));
-            con[y].add(new Edge(x, c));
-        }
+        max = Integer.MIN_VALUE;
+        min = Integer.MAX_VALUE;
     }
 
-    static int ans;
-    // 현재 x 에 있으며, 부모 노드는 prev 이며, 목표 지점은 goal,
-    // 그리고 root부터 지금까지 이동 거리가 dist 이다.
-    static void dfs(int x,int prev, int goal, int dist){
-        /* TODO */
-        if(x==goal){
-            ans=dist;
+    static int N, max, min;
+    static int[] nums, operators, order;    //order는  연산을 진행한 결과값 저장   order[1]=nums[1],   order[2]  는  nums[1]과 nums[2]를 연산(사칙연산중 하나) 한 결과
+
+    static int calculator(int pre, int pmdm, int post) {
+        switch (pmdm){
+            case 1 :
+                return pre+post;
+            case 2 :
+                return pre-post;
+            case 3 :
+                return pre*post;
+            case 4 :
+                return pre/post;
+        }
+
+        return 0;
+    }
+
+    // order[1...N-1] 에 연산자들이 순서대로 저장될 것이다.
+    static void rec_func(int depth) {
+        if (depth == N + 1) {
+            max=Math.max(max, order[N]);
+            min=Math.min(min,order[N]);
             return;
         }
-        for(Edge edge : con[x]){   //x에서 갈 수 있는 모든 점 조사  ( edge에는 x에서 갈 수 있는 모든 점+ cost가 들어있음
-            if(edge.y != prev ){  //간적이 없으면,   되돌아갈필요는 없다
-                dfs( edge.y, x , goal, dist+edge.c   );
+        if (depth == 1) {
+            order[1] = nums[1];
+            rec_func(2);
+        }
+
+        if (depth >= 2) {
+            for (int i = 1; i <= 4; i++) {
+                //operator에서 개수 없애야지..
+                if (operators[i] == 0) continue;
+                order[depth] = calculator(order[depth - 1], i, nums[depth]);
+                operators[i]--;
+                rec_func(depth + 1);
+                operators[i]++;  //연산자 다시 돌려줘야지
+
             }
         }
-    }
-    static void pro() {
-        /* TODO */
-        for(int i=1 ; i<=m ; i++){
-            int start=scan.nextInt();
-            int goal=scan.nextInt();
-            dfs(start,-1,goal,0);
-            System.out.println(ans);
-        }
-
 
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         input();
-        pro();
-
+        rec_func(1);
+        sb.append(max).append('\n').append(min);
+        System.out.println(sb.toString());
     }
-
 
     static class FastReader {
         BufferedReader br;

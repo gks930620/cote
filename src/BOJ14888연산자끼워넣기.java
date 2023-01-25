@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class BOJ14888 {
+public class BOJ14888연산자끼워넣기 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
