@@ -1,74 +1,54 @@
 import java.io.*;
 import java.util.*;
+import java.lang.Math;
 
 public class Main {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
+    static int N;
+    static int[][] D;
+    static int[] A;
+
     static void input() {
         N = scan.nextInt();
-        nums = new int[N + 1];
-        operators = new int[5];   // operatios[1]    + 의 개수
-        order = new int[N + 1];
-        for (int i = 1; i <= N; i++)
-            nums[i] = scan.nextInt();
-        for (int i = 1; i <= 4; i++)
-            operators[i] = scan.nextInt();
-
-        max = Integer.MIN_VALUE;
-        min = Integer.MAX_VALUE;
+        A = new int[N + 1];
+        D = new int[N + 1][10];   //마지막이 1로 끝나면 Dy[N][1]
     }
 
-    static int N, max, min;
-    static int[] nums, operators, order;    //order는  연산을 진행한 결과값 저장   order[1]=nums[1],   order[2]  는  nums[1]과 nums[2]를 연산(사칙연산중 하나) 한 결과
-
-    static int calculator(int pre, int pmdm, int post) {
-        switch (pmdm){
-            case 1 :
-                return pre+post;
-            case 2 :
-                return pre-post;
-            case 3 :
-                return pre*post;
-            case 4 :
-                return pre/post;
+    static void pro() {
+        // 초기값 구하기
+        /* TODO */
+        for(int i=0; i<10 ; i++ ){
+            D[1][i]=1;
         }
 
-        return 0;
-    }
-
-    // order[1...N-1] 에 연산자들이 순서대로 저장될 것이다.
-    static void rec_func(int depth) {
-        if (depth == N + 1) {
-            max=Math.max(max, order[N]);
-            min=Math.min(min,order[N]);
-            return;
-        }
-        if (depth == 1) {
-            order[1] = nums[1];
-            rec_func(2);
-        }
-
-        if (depth >= 2) {
-            for (int i = 1; i <= 4; i++) {
-                //operator에서 개수 없애야지..
-                if (operators[i] == 0) continue;
-                order[depth] = calculator(order[depth - 1], i, nums[depth]);
-                operators[i]--;
-                rec_func(depth + 1);
-                operators[i]++;  //연산자 다시 돌려줘야지
-
+        // 점화식을 토대로 Dy 배열 채우기
+        /* TODO */
+        for(int i=2; i<=N; i++){
+            for(int j=0; j<10 ; j++){
+                for(int k=0; k<=j ; k++){
+                    D[i][j]+=D[i-1][k];
+                    D[i][j]=D[i][j]%10007;
+                }
             }
         }
 
+        // Dy배열로 정답 계산하기
+        int ans = 0;
+        for(int i=0 ; i< 10 ; i++){
+            ans+=D[N][i];  //길이가 N인 것의  끝이 0부터 9까지인 모든 오르막수들의 합.
+            ans%=10007;
+        }
+        /* TODO */
+        System.out.println(ans);
     }
 
     public static void main(String[] args) {
         input();
-        rec_func(1);
-        sb.append(max).append('\n').append(min);
-        System.out.println(sb.toString());
+        pro();
     }
+
 
     static class FastReader {
         BufferedReader br;
