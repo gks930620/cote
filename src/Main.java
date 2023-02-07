@@ -21,6 +21,8 @@ public class Main {
         /* TODO */
         for(int i=0; i<10 ; i++ ){
             D[1][i]=1;
+            //글씨
+
         }
 
         // 점화식을 토대로 Dy 배열 채우기
