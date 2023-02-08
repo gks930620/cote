@@ -20,28 +20,15 @@ public class Main {
         // 초기값 구하기
         /* TODO */
         for(int i=0; i<10 ; i++ ){
-            D[1][i]=1;
-            //글씨
 
         }
 
         // 점화식을 토대로 Dy 배열 채우기
         /* TODO */
-        for(int i=2; i<=N; i++){
-            for(int j=0; j<10 ; j++){
-                for(int k=0; k<=j ; k++){
-                    D[i][j]+=D[i-1][k];
-                    D[i][j]=D[i][j]%10007;
-                }
-            }
-        }
+
 
         // Dy배열로 정답 계산하기
         int ans = 0;
-        for(int i=0 ; i< 10 ; i++){
-            ans+=D[N][i];  //길이가 N인 것의  끝이 0부터 9까지인 모든 오르막수들의 합.
-            ans%=10007;
-        }
         /* TODO */
         System.out.println(ans);
     }
