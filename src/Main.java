@@ -17,30 +17,7 @@ public class Main {
     }
 
     static void pro() {
-        // 초기값 구하기
-        /* TODO */
-        for(int i=0; i<10 ; i++ ){
-            D[1][i]=1;
-        }
 
-        // 점화식을 토대로 Dy 배열 채우기
-        /* TODO */
-        for(int i=2 ; i<=N ; i++){
-            for(int j=0; j<10; j++){
-                for(int k=0; k<=j ; k++){
-                    D[i][j]+=D[i-1][k];
-                    D[i][j]%=10007;
-                }
-            }
-        }
-
-        // Dy배열로 정답 계산하기
-        int sum=0;
-        for(int i=0 ; i<10 ; i++){
-            sum+=D[N][i];
-            sum%=10007;
-        }
-        System.out.println(sum);
     }
 
     public static void main(String[] args) {
