@@ -18,7 +18,7 @@ public class BOJ1759암호만들기 {
 
     static int N, M;
     static char[] chars;
-    static int[] selected; //char로 했었어도 됐을텐데, 선택됐는지여부를 이걸로??
+    static int[] selected; 
 
 
     //모음이냐?
@@ -46,7 +46,8 @@ public class BOJ1759암호만들기 {
             }
 
         } else {
-            for (int i = selected[k - 1] + 1; i <= N; i++) {  // 정렬한 상태에서  a선택했으면 a이후것만 선택하게..   오름차순인건 여기서 만족했으니까.
+            for (int i = selected[k - 1] + 1; i <= N; i++) {  
+                // 정렬한 상태에서  a선택했으면 a이후것만 선택하게..    오름차순 할 땐 selected 한다.  전에 선택된거 +1부터 ㅎㅎ
                 selected[k] = i;  //이번에 선택된거
                 rec_func(k + 1);
                 selected[k] = 0;

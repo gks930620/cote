@@ -1,74 +1,14 @@
-import java.io.*;
-import java.util.*;
-import java.lang.Math;
-
-public class Main {
-    static FastReader scan = new FastReader();
-    static StringBuilder sb = new StringBuilder();
-
-    static int N;
-    static int[][] D;
-    static int[] A;
-
-    static void input() {
-        N = scan.nextInt();
-        A = new int[N + 1];
-        D = new int[N + 1][10];   //마지막이 1로 끝나면 Dy[N][1]
-    }
-
-    static void pro() {
-
-    }
-
-    public static void main(String[] args) {
-        input();
-        pro();
-    }
 
 
-    static class FastReader {
-        BufferedReader br;
-        StringTokenizer st;
 
-        public FastReader() {
-            br = new BufferedReader(new InputStreamReader(System.in));
-        }
+public class Main{
+        //1759 암호만들기부터..     완전탐색에서 오름차순이란,   그리고 N과 M 하면서 중복같은것도..
 
-        public FastReader(String s) throws FileNotFoundException {
-            br = new BufferedReader(new FileReader(new File(s)));
-        }
+    //depth는  깊이,    for문에는 후보군이 온다.
 
-        String next() {
-            while (st == null || !st.hasMoreElements()) {
-                try {
-                    st = new StringTokenizer(br.readLine());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return st.nextToken();
-        }
+    //오름차순에서는   selected를 이용해서  selected[depth]  =특정 값 (for문이니까 아마도 i) 를 통해
+    // depth번째에서는 i를 선택했으면 그 다음     depth+1에서는 selected[depth]+1  부터 for문 돌려야된다..  내 머릿속에 있고   그림으로 그려라 티스토리에
+    // 그리고 내일 연습장 사오자.
 
-        int nextInt() {
-            return Integer.parseInt(next());
-        }
 
-        long nextLong() {
-            return Long.parseLong(next());
-        }
-
-        double nextDouble() {
-            return Double.parseDouble(next());
-        }
-
-        String nextLine() {
-            String str = "";
-            try {
-                str = br.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return str;
-        }
-    }
 }
