@@ -1,14 +1,115 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static StringBuilder sb = new StringBuilder();
+
+    static void input() {
+        FastReader scan = new FastReader();
+        M = scan.nextInt();
+        N = scan.nextInt();
+        chars = new char[N + 1];
+        selected = new int[M + 1];
+        String[] tokens = scan.nextLine().split(" ");
+        for (int i = 1; i <= N; i++) {
+            chars[i] = tokens[i - 1].charAt(0);
+        }
+    }
+
+    static int N, M;
+    static char[] chars;
+    static int[] selected;
+
+    static boolean isVowel(char x) {
+        return x == 'a' || x == 'e' || x == 'i' || x == 'o' || x == 'u';
+    }
+
+    static void rec_func(int k) {
+        if (k == M + 1) { // 1 ~ M 번째를 전부 다 골랐다
+            int vowel = 0, consonant = 0;
+            // 선택한 문자들이 조건을 만족하는 지 확인하자
+            /* TODO */
+            for(int i=1 ; i<=M ; i++){
+                if(isVowel(chars[selected[i]])){
+                    vowel++;
+                }else{
+                    consonant++;
+                }
+            }
+
+            if(vowel>=1 && consonant>=2){
+                for(int i=1 ; i<=M ; i++){
+                    sb.append(chars[selected[i]]);
+                }
+                sb.append("\n");
+            }
 
 
+        } else {
+          for(int i=selected[k-1]+1; i<=N ; i++){
+              selected[k]=i;
+              rec_func(k+1);
+              selected[k]=0;
+          }
+        }
+    }
 
-public class Main{
-        //1759 암호만들기부터..     완전탐색에서 오름차순이란,   그리고 N과 M 하면서 중복같은것도..
+    public static void main(String[] args) {
+        input();
 
-    //depth는  깊이,    for문에는 후보군이 온다.
+        // 1 번째 원소부터 M 번째 원소를 조건에 맞는 모든 방법을 찾아줘
+        // chars 정렬해주기
+        /* TODO */
+        Arrays.sort(chars);
+        rec_func(1);
+        System.out.println(sb.toString());
 
-    //오름차순에서는   selected를 이용해서  selected[depth]  =특정 값 (for문이니까 아마도 i) 를 통해
-    // depth번째에서는 i를 선택했으면 그 다음     depth+1에서는 selected[depth]+1  부터 for문 돌려야된다..  내 머릿속에 있고   그림으로 그려라 티스토리에
-    // 그리고 내일 연습장 사오자.
+    }
 
 
+    static class FastReader {
+        BufferedReader br;
+        StringTokenizer st;
+
+        public FastReader() {
+            br = new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        public FastReader(String s) throws FileNotFoundException {
+            br = new BufferedReader(new FileReader(new File(s)));
+        }
+
+        String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        String nextLine() {
+            String str = "";
+            try {
+                str = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+    }
 }
