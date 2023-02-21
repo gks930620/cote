@@ -2,68 +2,51 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static void input() {
-        FastReader scan = new FastReader();
-        M = scan.nextInt();
-        N = scan.nextInt();
-        chars = new char[N + 1];
-        selected = new int[M + 1];
-        String[] tokens = scan.nextLine().split(" ");
-        for (int i = 1; i <= N; i++) {
-            chars[i] = tokens[i - 1].charAt(0);
-        }
-    }
-
     static int N, M;
-    static char[] chars;
-    static int[] selected;
+    static int[] A;
 
-    static boolean isVowel(char x) {
-        return x == 'a' || x == 'e' || x == 'i' || x == 'o' || x == 'u';
+    static void input() {
+        N = scan.nextInt();
+        M = scan.nextInt();
+        A = new int[N + 1];
+        for (int i = 1; i <= N; i++) {
+            A[i] = scan.nextInt();
+        }
     }
 
-    static void rec_func(int k) {
-        if (k == M + 1) { // 1 ~ M 번째를 전부 다 골랐다
-            int vowel = 0, consonant = 0;
-            // 선택한 문자들이 조건을 만족하는 지 확인하자
-            /* TODO */
-            for(int i=1 ; i<=M ; i++){
-                if(isVowel(chars[selected[i]])){
-                    vowel++;
-                }else{
-                    consonant++;
-                }
-            }
-
-            if(vowel>=1 && consonant>=2){
-                for(int i=1 ; i<=M ; i++){
-                    sb.append(chars[selected[i]]);
-                }
-                sb.append("\n");
-            }
-
-
-        } else {
-          for(int i=selected[k-1]+1; i<=N ; i++){
-              selected[k]=i;
-              rec_func(k+1);
-              selected[k]=0;
-          }
+    static boolean determination(long H) {
+        // H 높이로 나무들을 잘랐을 때, M 만큼을 얻을 수 있으면 true, 없으면 false를 return하는 함수
+        long sum=0;
+        for(int i=1; i<=N ; i++){
+            long chai= A[i]-H >0 ? A[i]-H  : 0;
+            sum += chai;
         }
+
+        return sum >=M ;
+    }
+
+    static void pro() {
+        long L = 0, R = 2000000000, ans = 0;
+        // [L ... R] 범위 안에 정답이 존재한다!
+        // 이분 탐색과 determination 문제를 이용해서 answer를 빠르게 구하자!
+        while(L<=R){
+            long mid=  (L+R)/2;
+            if(determination(mid)){ //나무를 M이상 얻을 수 잇으면   더 높게 잘라야겠지?
+                L=mid+1;
+                ans=mid;
+            }else{ // 못 얻으면 더 낮게 잘라야겠지
+                R=mid-1;
+            }
+        }
+        System.out.println(ans);
     }
 
     public static void main(String[] args) {
         input();
-
-        // 1 번째 원소부터 M 번째 원소를 조건에 맞는 모든 방법을 찾아줘
-        // chars 정렬해주기
-        /* TODO */
-        Arrays.sort(chars);
-        rec_func(1);
-        System.out.println(sb.toString());
-
+        pro();
     }
 
 

@@ -11,38 +11,42 @@ public class BOJ9663NQUEEN {
     }
 
     static int N, ans;
-    static int[] col;   // index는 row, 값은  열
+    static int[] col;   // col[1]=3     1번째 줄 3번째 칸의 돌   (1,3)
 
-    //(r1,c1)이 (r2,c2)를 공격할 수 있는지
-    static boolean attackable(int r1, int c1, int r2, int c2) {
+    // 기존에 있던 거   r1,c1       현재 놓으려는 곳 r2,c2
+    static boolean attackable(int r1, int c1, int r2, int c2) {  //공격이 가능하면 true
         if (c1 == c2) return true;
-        if (r1 == r2) return true;  //이런일은 rec_func에서 일어나지않지만 함수정의때문에 써봄.
         if (r1 - c1 == r2 - c2) return true;
         if (r1 + c1 == r2 + c2) return true;
+        // abs쓰면 안되는 이유는 그림보면 이해 될거임.
+        // (3,5)면 (1,3),(2,4) ,(4,6) (5,7)  비교해야되는데
+        // 절대값이면 (4,2)도 대각선에 있는걸로 판단함.
+        // (-)는 /  대각선이고,       (+)는 \ 대각선  .   그래서 abs 쓰면안됨.  근데 왜 다른곳에는 abs 썻었냐 .ㅅㅂ
         return false;
     }
 
-
-    //rec_fun row는 행,  for의 i는 열
-    // 행
-    static void rec_func(int row) {
-        if (row == N + 1) {
+    static void rec_func(int depth) {
+        if (depth == N + 1) {
+            // TODO
             ans++;
         } else {
-            for (int i = 1; i <= N; i++) {  // 1열부터 N열까지 다 찾음.
-                boolean possible=true ;    //일단 놓을 수 있음.
-                for(int j=1 ; j<=row-1; j++){   //현재 1행부터 row-1 행까지의 놓인 퀸들을 전부 조사.
-                    if(attackable(j,col[j],row,i)){  //(r2,c2)는 현재 놓으려는 곳  (r1,c1)은 놓여져있는곳
-                        possible=false;
-                        break;
+            // TODO
+            for(int i=1 ; i<=N ; i++){
+                //attackable 메소드는 1개의 돌에 대해서만... 그러므로  모든 돌 조사해야됨.
+                boolean isSafeFromAllQueen= true;  //첨엔 공격 안 당한다고 본다
+                for(int j=1 ; j<depth ; j++){    // 1번째부터  이전 depth까지의 돌들 조사.
+                    if(attackable(  j , col[j]  ,  depth , i )){
+                        isSafeFromAllQueen=false;
                     }
                 }
-                if(possible){
-                    col[row]=i;
-                    rec_func(row+1);
-                    col[row]=0;
+                if(isSafeFromAllQueen){  //모든 퀸으로부터 안전하면
+                    col[depth]=i;  //현재 칸에 퀸 넣고  다음 줄 확인
+                    rec_func(depth+1);
+                    col[depth]=0;
                 }
+
             }
+
         }
     }
 

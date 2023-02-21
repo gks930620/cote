@@ -48,6 +48,8 @@ public class BOJ1260DFS와BFS {
         // start는 방문 가능한 점이므로 que에 넣어준다.
         que.add(start);
         visit[start] = true;  // start를 갈 수 있다고 표시하기 (중요!!!)
+        // 실제로 방문 하는 타이밍은 que에서 뺄 때이지만,   que에 넣을 때 방문표시를 해줘야한다.
+        //  그래야 중복해서  que에 들어가지 않는다.   
 
         while (!que.isEmpty()) {  // 더 확인할 점이 없다면 정지
             int x = que.poll();
