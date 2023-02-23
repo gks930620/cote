@@ -1,33 +1,41 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
-public class Main {
+public class BOJ20291파일정리 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static int n;
-    static ArrayList<Integer>[] adj;
-    static int[] parent;
+    static int N;
+    static String[] a;
 
     static void input() {
-        n = scan.nextInt();
-
-        // 인접 리스트 구성하기
-        /* TODO */
-    }
-
-    // dfs(x, par) := 정점 x 의 부모가 par 였고, x의 children들을 찾아주는 함수
-    static void dfs(int x, int par) {
-        /* TODO */
+        N = scan.nextInt();
+        a = new String[N];
+        for (int i = 0; i < N; i++) {
+            // 입력된 파일 이름을 . 을 기준으로 나눠서 확장자를 가져오기
+            String str=scan.next();
+            a[i]=str.split("\\.")[1];
+        }
     }
 
     static void pro() {
-        // 1 번 정점이 ROOT 이므로, 여기서 시작해서 Tree의 구조를 파악하자.
-        /* TODO */
+        // TODO: 확장자마다 몇 번 나타났나 count 하기
+        // 확장자 오름차순,  각 확장자가 몇개있는지
+        // txt 2,  world 1
+        Map<String,Integer> map= new HashMap<>();   // txt , 2  <key,value>
+        for(String str : a){
+            map.put(str, map.getOrDefault(str,0)+1 );
+        }
+        Set<String> set = map.keySet();
+        List<String > list= new ArrayList<>();
+        list.addAll(set);
+        Collections.sort(list);
 
-        // 정답 출력하기
-        /* TODO */
+        for(String str : list){
+            sb.append(str).append(" ").append(map.get(str));
+            sb.append("\n");
+        }
+        System.out.println(sb.toString());
     }
 
     public static void main(String[] args) {

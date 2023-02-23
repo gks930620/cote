@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class BOJ7795 {
+public class BOJ7795먹을것인가먹힐것인가 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
