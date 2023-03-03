@@ -1,7 +1,9 @@
+package finished;
+
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BOJ1916최소비용구하기 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
@@ -26,14 +28,13 @@ public class Main {
         }
     }
 
-    static int N, M, K;
+    static int N, M, start, end;
     static int[] dist;
     static ArrayList<Edge>[] edges;
 
     static void input() {
         N = scan.nextInt();
         M = scan.nextInt();
-        K=scan.nextInt();
         dist = new int[N + 1];
         edges = new ArrayList[N + 1];
         for (int i = 1; i <= N; i++) edges[i] = new ArrayList<Edge>();
@@ -43,6 +44,8 @@ public class Main {
             int weight = scan.nextInt();
             edges[from].add(new Edge(to, weight));
         }
+        start = scan.nextInt();
+        end = scan.nextInt();
     }
 
     static void dijkstra(int start) {
@@ -50,49 +53,45 @@ public class Main {
         // ※주의사항※
         // 문제의 정답으로 가능한 거리의 최댓값보다 큰 값임을 보장해야 한다.
         /* TODO */
-        for(int i=1 ; i<=N ; i++){
+        for(int i=1 ; i<=N; i++){
             dist[i]=Integer.MAX_VALUE;
         }
-        // 최소 힙 생성
-        /* TODO */
-        PriorityQueue<Info> pq= new PriorityQueue<>( (o1, o2) -> o1.dist-o2.dist );  //작은게 앞에온다. 기억하자. 작은게 앞에온다.
 
+        Queue<Info> que=new LinkedList<>();
         // 시작점에 대한 정보(Information)을 기록에 추가하고, 거리 배열(dist)에 갱신해준다.
         /* TODO */
-        pq.add(new Info(start,0));
+        que.add(new Info(start,0));
         dist[start]=0;
-        // 거리 정보들이 모두 소진될 때까지 거리 갱신을 반복한다.
-        while (!pq.isEmpty()) {
-            Info info = pq.poll();
-            int idx=info.idx;
-            int minDist=info.dist;
-            // 꺼낸 정보가 최신 정보랑 다르면, 의미없이 낡은 정보이므로 폐기한다.
-            /* TODO */
-            if(minDist> dist[idx]) continue;
 
-            // 연결된 모든 간선들을 통해서 다른 정점들에 대한 정보를 갱신해준다.
-            for (Edge e : edges[info.idx]) {
-                // e.to 까지 갈 수 있는 더 짧은 거리를 찾았다면 이에 대한 정보를 갱신하고 PQ에 기록해준다.
-                /* TODO */
-                // 1->2->3이  1->3보다 크냐
-                if( dist[e.to]  <=  dist[idx]+e.weight  ) continue;;
-                dist[e.to]=dist[idx]+e.weight; //  만약 1->2->3이 더 작으면   1->2->3 경로로 업데이트
-                pq.add(new Info(e.to,dist[e.to]));
+
+        // 거리 정보들이 모두 소진될 때까지 거리 갱신을 반복한다.
+        while (!que.isEmpty()) {
+            Info info = que.poll();
+            int idx=info.idx;
+            int minDist=info.dist;      //  start에서 idx까지의 최소비용(현재)
+
+
+            //4.       que에 넣을 때 1-<5번도 넣었을 거고,  1->3->5도 넣음.
+            //         근데 que에서 빼보니까  1->5는  넣은건 1->3->5보다 비용이 크네.. 그럼 5에서 가는 거 안해도되니까 continue
+            // >=는 안됨. =있으면 1->5도 안하고, 1->3>5, 1->4>5 전부 edge 확인안함..
+            if( minDist > dist[idx] ) continue;  //새로 들어온 경로까지의 최소비용이   기존의 idx까지의 최소비용보다 크면 폐기
+
+            for (Edge e : edges[idx]) {
+                //2.   2->4 가는걸 넣어야 하는데,   이는 1->2->4 임.  이 비용이 1->4보다 큰지 아닌지 비교해서 크면 안 넣어도 됨.
+                //3.   3번차례에서는 3->4 비교하고,  3->5 비교함.      3->4는 안 넣지만, 3->5는 넣을거임
+                if( dist[idx] + e.weight >=  dist[e.to]) continue;
+
+                // 1.    처음에 1은 2,3,4,5를 다 넣는다.
+                dist[e.to] = dist[info.idx] + e.weight;
+                que.add(new Info(e.to, dist[e.to]));   //  dist[2](1에서 2까지 가는 최소비용) + 2에서 4까지의 비용
+
             }
         }
     }
 
     static void pro() {
-        dijkstra(K);
-        /* TODO */
-        for(int i=1; i<=N ; i++){
-            if(dist[i]==Integer.MAX_VALUE) {
-                sb.append("INF").append("\n");
-            }else{
-                sb.append(dist[i]).append("\n");
-            }
-        }
-        System.out.print(sb);
+        dijkstra(start);
+        System.out.print(dist[end]);
     }
 
     public static void main(String[] args) {

@@ -59,7 +59,7 @@ public class BOJ2470 {
             }
 
         }
-        sb.append(v1).append(' ').append(v2);
+        sb.append(v1).append(" ").append(v2);
         System.out.println(sb);
     }
 

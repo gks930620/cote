@@ -20,8 +20,8 @@ public class BOJ15650 {
     // 아직 M 개를 고르지 않음 => k 번째부터 M번째 원소를 조건에 맞게 고르는 모든 방법을 시도한다.
     static void rec_func(int k) {
         if (k == M + 1) {
-            for (int i = 1; i <= M; i++) sb.append(selected[i]).append(' ');
-            sb.append('\n');
+            for (int i = 1; i <= M; i++) sb.append(selected[i]).append(" ");
+            sb.append("\n");
         } else { //중복없이, 오름차순
             for(int i=selected[k-1]+1; i<=N ; i++){ // 그 전값보다 +1 부터 조사해야지
                 selected[k]=i;

@@ -64,7 +64,7 @@ public class BOJ3184양 {
             }
         }
 
-        sb.append(totalSheep).append(' ').append(totalWolf);
+        sb.append(totalSheep).append(" ").append(totalWolf);
         System.out.println(sb.toString());
     }
 

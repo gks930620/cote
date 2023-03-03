@@ -24,9 +24,9 @@ public class BOJ15649 {
         if(k==M+1){
             //다 골랐다.
             for(int i=1; i<=M ; i++){
-                sb.append(selected[i]).append(' ');
+                sb.append(selected[i]).append(" ");
             }
-            sb.append('\n');
+            sb.append("\n");
         }else{
             for(int i=1 ; i<=N ; i++){
                 if(used[i]==1){  //i는 사용된적이 있다.

@@ -1,7 +1,9 @@
+package finished;
+
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BOJ1753최단경로 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 

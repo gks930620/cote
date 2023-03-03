@@ -66,7 +66,7 @@ public class BOJ14888연산자끼워넣기 {
         input();
         // 1 번째 원소부터 M 번째 원소를 조건에 맞게 고르는 모든 방법을 탐색해줘
         rec_func(1);
-        sb.append(max).append('\n').append(min);
+        sb.append(max).append("\n").append(min);
         System.out.println(sb.toString());
     }
 

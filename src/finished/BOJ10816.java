@@ -31,7 +31,7 @@ public class BOJ10816 {
         }
 
         for(int i=1 ; i<=M ; i++){
-            sb.append(map.getOrDefault(B[i],0)).append(' ');
+            sb.append(map.getOrDefault(B[i],0)).append(" ");
         }
         System.out.println(sb.toString());
 

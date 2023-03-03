@@ -121,7 +121,7 @@ public class BOJ3055탈출 {
         // 고슴도치가 물을 피해 탐색할 수 있는 공간 찾기
         bfs_hedgehog();
 
-        // 탈출구 'D' 에 대한 결과를 통해 정답 출력하기
+        // 탈출구 "D" 에 대한 결과를 통해 정답 출력하기
         for (int i=0;i<N;i++){
             for (int j=0;j<M;j++){
                 if (a[i].charAt(j) == 'D'){

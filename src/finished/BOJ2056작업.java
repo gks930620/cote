@@ -4,57 +4,62 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class BOJ2252줄세우기 {
+public class BOJ2056작업 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
     static int N, M;
-    static int[] indeg;
+    static int[] indeg, T_done, T;
     static ArrayList<Integer>[] adj;
 
     static void input() {
-        // Adjacent List 생성 및 indegree 계산하기
-        /* TODO */
-        N= scan.nextInt();
-        M=scan.nextInt();
-        indeg=new int[N+1];
-        adj=new ArrayList[N+1];
-        for(int i=1  ; i<=N ; i++){
-            adj[i]=new ArrayList<>();
+        N = scan.nextInt();
+        adj = new ArrayList[N + 1];
+        indeg = new int[N + 1];
+        T = new int[N + 1];
+        T_done = new int[N + 1];
+        for (int i = 1; i <= N; i++) {
+            adj[i] = new ArrayList<>();
         }
-        for(int i=1 ; i<=M ; i++){  //단순한 입력횟수
-            int x=scan.nextInt();
-            int y=scan.nextInt();
-            adj[x].add(y);
-            indeg[y]++;
+        for( int i=1 ; i<= N ; i++){
+            T[i]=scan.nextInt();
+            int preCount= scan.nextInt();
+            for(int j=1 ; j<=preCount ; j++){
+                indeg[i]++;  //선행 작업  올 때마다 ++
+                int a=scan.nextInt();
+                adj[a].add(i);
+            }
         }
+
     }
 
     static void pro() {
-        Deque<Integer> queue = new LinkedList<>();
-        // 제일 앞에 "정렬될 수 있는" 정점 찾기
-        /* TODO */
-        for(int i=1 ; i<=N ; i++){
+        Deque<Integer> que= new LinkedList<>();
+        for(int i=1 ; i <=N ; i++){
             if(indeg[i]==0){
-                queue.add(i);
+                que.add(i);   // 선행작업이 없는 번호들 que에 넣기
+                T_done[i]=T[i];   //선행작업이 없는 번호들을 끝마치는데는  해당 작업의 시간만 필요함
             }
         }
-        // 정렬될 수 있는 정점이 있다면?
-        // 1. 정렬 결과에 추가하기
-        // 2. 정점과 연결된 간선 제거하기
-        // 3. 새롭에 "정렬 될 수 있는" 정점
-        /* TODO */
-        while (!queue.isEmpty()){
-            int x=queue.poll();  //꺼낸게 실제로 여기에 온 거.
-            sb.append(x).append(" ");
+
+
+        while (!que.isEmpty()){
+            int x=que.poll();
             for(int y : adj[x]){
-                indeg[y]--;
-                if(indeg[y]==0) queue.add(y);
+                T_done[y]=Math.max(T_done[y],T_done[x]+T[y] ) ;  //현재 y번까지 작업한 결과들 중 최대값
+                indeg[y]--;    //선행작업1개 완료함
+                if(indeg[y]==0){   // 선행작업 모두 완료했으면 que에 넣기.
+                    que.add(y);
+                }
             }
         }
 
-        System.out.println(sb);
-
+        //마지막게 아니라 모든 작업 최대화
+        int max=0;
+        for(int i=1 ; i<=N ; i++){
+            max=Math.max(max, T_done[i]);
+        }
+        System.out.println(max);
     }
 
     public static void main(String[] args) {

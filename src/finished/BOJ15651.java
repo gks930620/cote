@@ -22,9 +22,9 @@ public class BOJ15651 {
         if(k==M+1){ //다 골랐다.
             //selected[1...M] 배열이 탐색 한개 한 결과
             for(int i=1 ; i<=M ; i++){
-                sb.append(selected[i]).append(' ');
+                sb.append(selected[i]).append(" ");
             }
-            sb.append('\n');
+            sb.append("\n");
         }else {
             //1~N 까지를 K 번 원소로 한번씩 정하고!!
             //매번 K+1번부터 M번원소로 재귀호출해주기

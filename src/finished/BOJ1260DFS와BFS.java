@@ -31,7 +31,7 @@ public class BOJ1260DFS와BFS {
     static void dfs(int x) {
         // x 를 방문했다.
         visit[x] = true;
-        sb.append(x).append(' ');
+        sb.append(x).append(" ");
 
         // x 에서 갈 수 있는 곳들을 작은 번호부터 모두 방문한다.
         for (int y: adj[x]){
@@ -56,7 +56,7 @@ public class BOJ1260DFS와BFS {
         while (!que.isEmpty()) {  // 더 확인할 점이 없다면 정지
             int x = que.poll();
 
-            sb.append(x).append(' ');
+            sb.append(x).append(" ");
             for (int y: adj[x]){
                 if (visit[y]) continue;  // x 에서 y 를 갈 수는 있지만, 이미 탐색한 점이면 무시
 
@@ -70,7 +70,7 @@ public class BOJ1260DFS와BFS {
     static void pro() {
         visit = new boolean[N + 1];
         dfs(V);
-        sb.append('\n');
+        sb.append("\n");
         for (int i = 1; i <= N; i++) visit[i] = false;
         bfs(V);
         System.out.println(sb);
