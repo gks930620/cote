@@ -5,95 +5,52 @@ public class Main {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static class Edge {
-        public int to, weight;
-
-        public Edge(int _to, int _weight) {
-            this.to = _to;
-            this.weight = _weight;
-        }
-    }
-
-    static class Info {
-        public int idx, dist;
-
-        public Info() {
-        }
-
-        public Info(int _idx, int _dist) {
-            this.idx = _idx;
-            this.dist = _dist;
-        }
-    }
-
-    static int N, M, K;
-    static int[] dist;
-    static ArrayList<Edge>[] edges;
+    static int N, M;
+    static int[] A;
 
     static void input() {
         N = scan.nextInt();
         M = scan.nextInt();
-        K=scan.nextInt();
-        dist = new int[N + 1];
-        edges = new ArrayList[N + 1];
-        for (int i = 1; i <= N; i++) edges[i] = new ArrayList<Edge>();
-        for (int i = 1; i <= M; i++) {
-            int from = scan.nextInt();
-            int to = scan.nextInt();
-            int weight = scan.nextInt();
-            edges[from].add(new Edge(to, weight));
+        A = new int[N + 1];
+        for (int i = 1; i <= N; i++) {
+            A[i] = scan.nextInt();
         }
     }
 
-    static void dijkstra(int start) {
-        // 모든 정점까지에 대한 거리를 무한대로 초기화 해주기.
-        // ※주의사항※
-        // 문제의 정답으로 가능한 거리의 최댓값보다 큰 값임을 보장해야 한다.
-        /* TODO */
+    static boolean determination(int withdrawl) {  //m번보다 많이 인출해야만 한다=>false   적게 인출하는경우는 내 맘대로 다시 인출 가능. true
+        // TODO
+        int count=1;
+        int sum=0;
         for(int i=1 ; i<=N ; i++){
-            dist[i]=Integer.MAX_VALUE;
-        }
-        // 최소 힙 생성
-        /* TODO */
-        PriorityQueue<Info> pq= new PriorityQueue<>( (o1, o2) -> o1.dist-o2.dist );  //작은게 앞에온다. 기억하자. 작은게 앞에온다.
-
-        // 시작점에 대한 정보(Information)을 기록에 추가하고, 거리 배열(dist)에 갱신해준다.
-        /* TODO */
-        pq.add(new Info(start,0));
-        dist[start]=0;
-        // 거리 정보들이 모두 소진될 때까지 거리 갱신을 반복한다.
-        while (!pq.isEmpty()) {
-            Info info = pq.poll();
-            int idx=info.idx;
-            int minDist=info.dist;
-            // 꺼낸 정보가 최신 정보랑 다르면, 의미없이 낡은 정보이므로 폐기한다.
-            /* TODO */
-            if(minDist> dist[idx]) continue;
-
-            // 연결된 모든 간선들을 통해서 다른 정점들에 대한 정보를 갱신해준다.
-            for (Edge e : edges[info.idx]) {
-                // e.to 까지 갈 수 있는 더 짧은 거리를 찾았다면 이에 대한 정보를 갱신하고 PQ에 기록해준다.
-                /* TODO */
-                // 1->2->3이  1->3보다 크냐
-                if( dist[e.to]  <=  dist[idx]+e.weight  ) continue;;
-                dist[e.to]=dist[idx]+e.weight; //  만약 1->2->3이 더 작으면   1->2->3 경로로 업데이트
-                pq.add(new Info(e.to,dist[e.to]));
+            if(  withdrawl <sum+A[i] ){  //초과하면
+                count++;
+                sum=0;
             }
+            sum += A[i];   //전날 돈
         }
+        return count>M ? false : true;
     }
 
     static void pro() {
-        dijkstra(K);
-        /* TODO */
-        for(int i=1; i<=N ; i++){
-            if(dist[i]==Integer.MAX_VALUE) {
-                sb.append("INF").append("\n");
-            }else{
-                sb.append(dist[i]).append("\n");
+        int max=A[1];
+        for(int i=2 ; i<=N ; i++){
+            max=Math.max(max,A[i]);
+        }
+        int L = max, R = 1000000000, ans = 0;   // R은 충분히 커야되고   L 은 적어도 하루 사용금액보다는 커야.
+
+        while(L<=R ){
+            int mid=(L+R)/2;
+            if( determination(mid)){    // m번  이하로 인출 가능 => 돈 더 줄여봐.
+                R=mid-1;
+                ans=mid;
+            }else{        //많이 인출해야만한다 ?  돈 더 늘려야지..
+                L=mid+1;
             }
         }
-        System.out.print(sb);
+
+        System.out.println(ans);
     }
+
 
     public static void main(String[] args) {
         input();

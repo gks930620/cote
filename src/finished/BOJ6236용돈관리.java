@@ -3,7 +3,7 @@ package finished;
 import java.io.*;
 import java.util.*;
 
-public class BOJ6236 {
+public class BOJ6236용돈관리 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
