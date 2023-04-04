@@ -2,47 +2,33 @@ import java.util.*;
 
 public class KAKAOMain {
     public static void main(String[] args) {
+        String[] weights = {"diamond", "diamond", "diamond", "iron", "iron", "diamond", "iron", "stone"};
+        int[] picks = {1, 3, 2};
+        int[] numbers={1,3,2,5,4,5,2,3};
+        String[] info = {"java backend junior pizza 150", "python frontend senior chicken 210", "python frontend senior chicken 150", "cpp backend senior pizza 260", "java backend junior chicken 80", "python backend senior chicken 50"};
+        String[] query = {"java and backend and junior and pizza 100", "python and frontend and senior and chicken 200", "cpp and - and senior and pizza 250", "- and backend and senior and - 150", "- and - and - and chicken 100", "- and - and - and - 150"};
+        String[][] plans={{"science", "12:40", "50"}, {"music", "12:20", "40"}, {"history", "14:00", "30"}, {"computer", "12:30", "100"}};
+        System.out.println(solution(5,numbers));
 
     }
 
-    //연습해보자.  해보니까 원리 자체는 그렇게 어렵지 않네
-    public  static int solution(int n, int[][] costs) {
-        int[] parent=new int[n]; //섬의 개수만큼
-        int total=0; //가중치 합
-
-        for (int i = 0; i < parent.length; i++) {  //초기 부모는 다 자기자신..
-            parent[i] = i;
+    public static  int solution(int k, int[] tangerine) {
+        Map<Integer, Integer> map=new HashMap<>(); //크기, 개수
+        for(int i=0 ; i<tangerine.length ; i++){
+            map.put( tangerine[i], map.getOrDefault(tangerine[i],0) +1 );
         }
-        Arrays.sort(costs,(o1,o2)-> o1[2]-o2[2]);   //비용을 기준으로 정렬
-
-        //위에서 언급한대로 간선을 선택하면 해당 간선의 정점 두 개를 Union으로 합치고,
-        // 사이클 여부를 판단할 때는 두 정점의 parent가 일치하는지를 find 함수를 통해 찾으면 된다.
-        for (int i = 0; i < costs.length; i++) {
-            int from=costs[i][0];
-            int to=costs[i][1];
-            int cost=costs[i][2];
-            if (find(parent, from) != find(parent, to)  ){   // 간선에 있는 곳이 부모가 같지않다면....   사이클 x
-                total += cost;   
-                union(parent, from, to);   //둘이 합침
-            }
+        List<Integer> list=new ArrayList<>(map.values());
+        list.sort((o1, o2) -> o2-o1 );
+        int count=0;
+        for(int i=0  ; i<list.size() ; i++){
+            k-= list.get(i);
+            count++;
+            if(k<=0 ) break;
         }
-        return 0;
+
+
+        return count;
     }
 
-    public static int find(int[] parent, int i) {  //어떻게든 부모를 찾아주는 함수.
-        //자기 자신을 가리키니 부모가 맞다.
-        if (parent[i] == i)
-            return i;
-        return find(parent, parent[i]);
-    }
-    public static void union(int[] parent, int a, int b) {
-        int a_parent = find(parent, a);
-        int b_parent = find(parent, b);
-        //아묻따   작은놈이 부모가..
-        if (a_parent < b_parent)
-            parent[b_parent] = a_parent;
-        else
-            parent[a_parent] = b_parent;
-    }
 
 }

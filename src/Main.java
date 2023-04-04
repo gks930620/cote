@@ -1,92 +1,110 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static class Edge {
-        public int to, weight;
+    static int N, M;
+    static String[] a;
+    static int[][] dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    static boolean[][] visit;
+    static int[][] dist_water, dist_hedgehog;
 
-        public Edge(int _to, int _weight) {
-            this.to = _to;
-            this.weight = _weight;
-        }
-    }
-
-    static class Info {
-        public int idx, dist;
-
-        public Info() {
-        }
-
-        public Info(int _idx, int _dist) {
-            this.idx = _idx;
-            this.dist = _dist;
-        }
-    }
-
-    static int N, M, start, end;
-    static int[] dist;
-    static ArrayList<Edge>[] edges;
 
     static void input() {
-        N = scan.nextInt();
-        M = scan.nextInt();
-        dist = new int[N + 1];
-        edges = new ArrayList[N + 1];
-        for (int i = 1; i <= N; i++) edges[i] = new ArrayList<Edge>();
-        for (int i = 1; i <= M; i++) {//버스수만큼
-             int from=scan.nextInt();
-             int to=scan.nextInt();
-             int cost=scan.nextInt();
-             edges[from].add(new Edge(to,cost));
+        N=scan.nextInt();  //행
+        M= scan.nextInt(); //열   for문은 행이 바깥
+        a=new String[N];
+        for(int i=0 ; i<N ; i++){
+            a[i]=scan.next();
         }
-        start = scan.nextInt();
-        end = scan.nextInt();
+        visit=new boolean[N][M];
+        dist_water=new int[N][M];
+        dist_hedgehog=new int[N][M];
     }
 
-    static void dijkstra(int start) {
-        // 모든 정점까지에 대한 거리를 무한대로 초기화 해주기.
-        // ※주의사항※
-        // 문제의 정답으로 가능한 거리의 최댓값보다 큰 값임을 보장해야 한다.
-        /* TODO */
-        for(int i=0 ; i <dist.length ; i++){
-            dist[i]=Integer.MAX_VALUE;
-        }
-
-        // 최소 힙 생성
-        /* TODO */
-        PriorityQueue<Info> pq=new PriorityQueue<>();
-
-        // 시작점에 대한 정보(Information)을 기록에 추가하고, 거리 배열(dist)에 갱신해준다.
-        /* TODO */
-        pq.add(new Info(start,0));
-        dist[start]=0;
-
-        // 거리 정보들이 모두 소진될 때까지 거리 갱신을 반복한다.
-        while (!pq.isEmpty()) {
-            Info info = pq.poll();
-            int idx=info.idx;
-            int minDist=info.dist;
-            // 꺼낸 정보가 최신 정보랑 다르면, 의미없이 낡은 정보이므로 폐기한다.
-            /* TODO */
-            if( minDist > dist[info.idx]) continue;
-            // 연결된 모든 간선들을 통해서 다른 정점들에 대한 정보를 갱신해준다.
-            for (Edge e : edges[info.idx]) {
-                // e.to 까지 갈 수 있는 더 짧은 거리를 찾았다면 이에 대한 정보를 갱신하고 PQ에 기록해준다.
-                /* TODO */
-                if( dist[idx] + e.weight >=  dist[e.to]) continue;
-                //처음에 1-> 2,3,4,5를 que에 넣는다.
-                dist[e.to] = dist[info.idx] + e.weight;
-                pq.add(new Info(e.to,e.weight));
+    // 모든 물들을 시작으로 동시에 BFS 시작!
+    static void bfs_water() {
+        Queue<Integer> que=new LinkedList<>();
+        //모든 물이 start 지역
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                dist_water[i][j] = -1;
+                visit[i][j] = false;
+                if (a[i].charAt(j) == '*') {
+                    que.add(i);
+                    que.add(j);
+                    dist_water[i][j] = 0;
+                    visit[i][j] = true;
+                }
             }
         }
+        while (!que.isEmpty()){
+            int x = que.poll();
+            int y=que.poll();
+
+            for(int[] direction : dir){
+                int nx=direction[0]+x;
+                int ny=direction[1]+y;
+                if(nx <0 || ny<0 || nx>=N || ny>=M) continue;
+                if( visit[nx][ny]  )continue;
+                if( a[nx].charAt(ny)=='D'  || a[nx].charAt(ny)=='X' ) continue;
+
+                que.add(nx);
+                que.add(ny);
+                dist_water[nx][ny]=dist_water[x][y]+1;
+            }
+
+        }
+    }
+
+    // 고슴도치를 시작으로 동시에 BFS 시작!
+    static void bfs_hedgehog() {
+        //dist[][]값을 보고  물이 먼저 차 있으면 못 가는 것으로 판단
+        Queue<Integer> que=new LinkedList<>();
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                dist_hedgehog[i][j] = -1;
+                visit[i][j] = false;
+                if (a[i].charAt(j) == 'S') {
+                    que.add(i);
+                    que.add(j);
+                    dist_hedgehog[i][j] = 0;
+                    visit[i][j] = true;
+                }
+            }
+        }
+
+        while (!que.isEmpty()){
+            int x = que.poll();
+            int y=que.poll();
+            for(int[] direction : dir){
+                int nx=direction[0]+x;
+                int ny=direction[1]+y;
+                if (nx < 0 || ny < 0 || nx >= N || ny >= M) continue;  // 지도를 벗어나는 곳으로 가는가?
+                if (a[nx].charAt(ny) != '.' && a[nx].charAt(ny) != 'D') continue;  // 갈 수 있는 칸인지 확인해야 한다.
+                if (dist_water[nx][ny] != -1 && dist_water[nx][ny] <= dist_hedgehog[x][y] + 1) continue;  // 물에 잠기지는 않는가?
+                if (visit[nx][ny]) continue;  // 이미 방문한 적이 있는 곳인가?
+                que.add(nx);
+                que.add(ny);
+                visit[nx][ny] = true;
+                dist_hedgehog[nx][ny] = dist_hedgehog[x][y] + 1;
+            }
+
+        }
+
+
     }
 
     static void pro() {
-        dijkstra(start);
-        System.out.print(dist[end]);
+
+
+        //물이 먼저.. 먼저가있는곳에 고슴도치는 못가니까..
+        bfs_water();
+        bfs_hedgehog();
+
     }
 
     public static void main(String[] args) {
