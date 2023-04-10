@@ -50,7 +50,7 @@ public class 소수찾기 {
     }
 
     public boolean isPrime(int n) {
-        if(n==1 ||n==0) return  false;
+            if(n==1 ||n==0) return  false;
         if (n == 2 || n == 3) return true;
         int sqrt = (int) Math.sqrt(n);
         for (int i = 2; i <= sqrt; i++) {
