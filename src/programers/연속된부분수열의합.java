@@ -1,6 +1,6 @@
 package programers;
 
-public class 연속된부분수열의합 {
+public class 연속된부분수열의합 { // 백준 두포인터 문제 풀어보고 해보자.
 
     public int[] solution(int[] sequence, int k) {
         int sum=0;
