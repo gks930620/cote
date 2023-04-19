@@ -1,4 +1,4 @@
-package programers;
+package programers.level2;
 
 public class Nx2타일링 {
     int[] fn=new int[60001];

@@ -1,4 +1,4 @@
-package programers;
+package programers.level2;
 
 public class 피로도 {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package programers;
+package programers.level2;
 
 public class 연속된부분수열의합 { // 백준 두포인터 문제 풀어보고 해보자.
 
