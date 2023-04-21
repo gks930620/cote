@@ -1,7 +1,9 @@
+package boj;
+
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BOJ1764듣보잡 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
