@@ -1,67 +1,86 @@
+import javax.sound.sampled.Line;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static int N, M;
-    static String[] A, B, ans;
+    static int N, M, K;
+    static int[][] a;
+    static boolean[][] visit;
+    static int[][] dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
     static void input() {
-        N = scan.nextInt();
-        M = scan.nextInt();
-        A = new String[N + 1];
-        B = new String[M + 1];
-        for (int i = 1; i <= N; i++) {
-            A[i] = scan.nextLine();
+        M = scan.nextInt(); //세로
+        N = scan.nextInt(); //가로
+        K = scan.nextInt();  //배추개수
+        a = new int[M][N];  //항상 세로먼저
+        for (int i = 0; i < K; i++) { //0부터네
+            int x= scan.nextInt(), y = scan.nextInt();  //세로, 가로
+            a[x][y] =1;
         }
-        for (int i = 1; i <= M; i++) {
-            B[i] = scan.next();
+        visit = new boolean[M][N];   // , 세로 가로
+    }
+
+    // x, y 를 갈 수 있다는 걸 알고 방문한 상태
+    static void dfs(int x, int y) {  //세로 가로 
+        /* TODO */
+        visit[x][y]=true;
+
+        for(int[] direction : dir){
+            int nx=x+direction[0]; //세로 
+            int ny=y+direction[1]; //가로
+            if(nx>= M || ny>=N || nx<0 || ny<0) continue;
+            if(a[nx][ny]==0) continue;
+            if(visit[nx][ny])continue;;
+            dfs(nx,ny);
+
         }
     }
 
-    static boolean bin_search(String[] B, int L, int R, String X) {
-        // B[L ... R] 이 정렬되어 있다고 가정했을 때
-        // 이 안에서 X 를 이분탐색하고, 존재하면 true, 아니면 false 를 return 하는 함수
-        while (L<=R){
-            int mid= (L+R)/2;
-            if(X.compareTo(B[mid]) <0){  //찾으려는게 더 뒤에있으면  .  X=A,  B[mid]=B   ,  mid가 줄어들어야지
-                R=mid-1;
-            }else if(X.compareTo(B[mid]) > 0) {   //찾으려는게 더 앞에있으면
-                L=mid+1;
-            }else{ //같음
-                return  true;
+    static  void bfs(int startX, int startY){ //bfs로도 똑같이 풀 수 있다..
+        Queue<Integer> que= new LinkedList<>();
+        que.add(startX);
+        que.add(startY); //세로먼저 넣음
+        visit[startX][startY]=true;
+        while (!que.isEmpty()){
+            int x= que.poll();
+            int y=que.poll();
+            for(int[] direction : dir){
+                int nx= x+direction[0];
+                int ny= y+direction[1];
+                if(nx>= M || ny>=N || nx<0 || ny<0) continue;
+                if(a[nx][ny]==0) continue;
+                if(visit[nx][ny])continue;
+                que.add(nx);
+                que.add(ny);
+                visit[nx][ ny]=true;
             }
         }
-        return false;
     }
 
     static void pro() {
-        // 보도 못한 사람들을 입력 받으면서 듣도 못한 사람들 안에서 찾아주기
-        // 정답을 기록해서 사전순으로 출력해주기
-        Arrays.sort(A,1,N);
-        Arrays.sort(B,1,M);
-
-        List<String> list = new ArrayList<>();
-        int count=0;
-        for (int i = 1; i <= N; i++) {
-            String cand = A[i];   //A[i]를 B에서 찾아보자. 이분탐색으로
-            if(bin_search(B, 1,M,cand)){  //있으면 추가하자
-                list.add(cand);
+        int ans = 0;
+        for (int i = 0; i < M; i++) {  //세로
+            for (int j = 0; j < N; j++) { //가로
+                if (!visit[i][j] && a[i][j] == 1) { //방문한적이없고, 지렁이라면 시작;
+                    bfs(i,j);
+                    ans++;
+                }
             }
         }
-        list.sort(null);
-        sb.append(list.size()).append("\n");
-        for(String 듣보 : list){
-            sb.append(듣보).append("\n");
-        }
-        System.out.println(sb);
+
+        System.out.println(ans);
     }
 
     public static void main(String[] args) {
-        input();
-        pro();
+        int T = scan.nextInt();
+        while (T-- > 0) {
+            input();
+            pro();
+        }
     }
 
 

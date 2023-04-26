@@ -36,7 +36,7 @@ public class 네트워크 {
         while (!que.isEmpty()) {
             int x = que.poll();
             for (int i = 0; i < com[x].length; i++) {  //x의 연결정보
-                if (com[x][i] == 1 && visit[i]==false) {   //1인것만 올 수 있는 점들   그중 실제로 연결된 것들
+                if (com[x][i] == 1   && visit[i]==false) {   //1인것만 올 수 있는 점들   그중 실제로 연결된 것들
                     que.add(i);
                     visit[i]=true;
                 }
