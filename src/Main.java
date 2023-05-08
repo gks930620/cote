@@ -1,4 +1,3 @@
-import javax.sound.sampled.Line;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.*;
@@ -7,80 +6,61 @@ public class Main {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static int N, M, K;
-    static int[][] a;
-    static boolean[][] visit;
-    static int[][] dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    static int N, M;
+    static ArrayList<Integer>[] adj;
+    static boolean[] visit;
 
     static void input() {
-        M = scan.nextInt(); //세로
-        N = scan.nextInt(); //가로
-        K = scan.nextInt();  //배추개수
-        a = new int[M][N];  //항상 세로먼저
-        for (int i = 0; i < K; i++) { //0부터네
-            int x= scan.nextInt(), y = scan.nextInt();  //세로, 가로
-            a[x][y] =1;
-        }
-        visit = new boolean[M][N];   // , 세로 가로
-    }
-
-    // x, y 를 갈 수 있다는 걸 알고 방문한 상태
-    static void dfs(int x, int y) {  //세로 가로 
         /* TODO */
-        visit[x][y]=true;
-
-        for(int[] direction : dir){
-            int nx=x+direction[0]; //세로 
-            int ny=y+direction[1]; //가로
-            if(nx>= M || ny>=N || nx<0 || ny<0) continue;
-            if(a[nx][ny]==0) continue;
-            if(visit[nx][ny])continue;;
-            dfs(nx,ny);
-
+        N= scan.nextInt();
+        M= scan.nextInt();
+        visit=new boolean[N+1];
+        adj=new ArrayList[N+1];
+        for(int i=1 ; i<=N ; i++){
+            adj[i]=new ArrayList<>();
         }
+        for(int i = 1; i<=M ; i++){
+            int start= scan.nextInt();
+            int end= scan.nextInt();
+            adj[start].add(end);
+            adj[end].add(start);  //양방향
+        }
+
     }
 
-    static  void bfs(int startX, int startY){ //bfs로도 똑같이 풀 수 있다..
-        Queue<Integer> que= new LinkedList<>();
-        que.add(startX);
-        que.add(startY); //세로먼저 넣음
-        visit[startX][startY]=true;
-        while (!que.isEmpty()){
-            int x= que.poll();
-            int y=que.poll();
-            for(int[] direction : dir){
-                int nx= x+direction[0];
-                int ny= y+direction[1];
-                if(nx>= M || ny>=N || nx<0 || ny<0) continue;
-                if(a[nx][ny]==0) continue;
-                if(visit[nx][ny])continue;
-                que.add(nx);
-                que.add(ny);
-                visit[nx][ ny]=true;
+    // start 에서 시작해서 갈 수 있는 정점들을 모두 탐색하기
+    static void bfs(int start) {
+        /* TODO */
+        Queue<Integer>  queue=new LinkedList<>();
+        queue.add(start);
+        visit[1]=true;
+
+        while (!queue.isEmpty()){
+            int x= queue.poll();
+
+            for(int y : adj[x]){
+                if(visit[y]==true) continue;
+                queue.add(y);
+                visit[y]=true;
             }
         }
     }
 
     static void pro() {
-        int ans = 0;
-        for (int i = 0; i < M; i++) {  //세로
-            for (int j = 0; j < N; j++) { //가로
-                if (!visit[i][j] && a[i][j] == 1) { //방문한적이없고, 지렁이라면 시작;
-                    bfs(i,j);
-                    ans++;
-                }
-            }
-        }
-
-        System.out.println(ans);
+        /* TODO */
+         bfs(1);
+         int count=0;
+         for(int i=2 ; i<=N ; i++){  //1은 포함시키지말라고했지
+             if(visit[i]){
+                 count++;
+             }
+         }
+        System.out.println(count);
     }
 
     public static void main(String[] args) {
-        int T = scan.nextInt();
-        while (T-- > 0) {
-            input();
-            pro();
-        }
+        input();
+        pro();
     }
 
 
