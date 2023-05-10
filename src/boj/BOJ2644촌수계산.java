@@ -2,7 +2,7 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class Main {
+public class BOJ2644촌수계산 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 

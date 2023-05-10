@@ -3,7 +3,7 @@ package boj;
 import java.io.*;
 import java.util.*;
 
-public class BOJ3273 {
+public class BOJ3273두수의합 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
