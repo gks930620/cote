@@ -1,50 +1,63 @@
 package boj;
-
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
-public class BOJ1654 {
+public class BOJ18404현명한나이트 {  //18404 현명한나이트
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static int K, N;
-    static int[] A;
+    static int N, M, sx, sy;
+    static int[][] dist;
+    static int[][] dir = {{-1,-2},{-2,-1},{-1,2},{-2,1},{1,-2},{2,-1},{1,2},{2,1}};
 
     static void input() {
-        K = scan.nextInt();
-        N = scan.nextInt();
-        A = new int[K + 1];
-        for (int i = 1; i <= K; i++) {
-            A[i] = scan.nextInt();
-        }
+        N = scan.nextInt();   //체스판크기
+        M = scan.nextInt();   // 잡을 말
+        sx = scan.nextInt();   //나이트 x
+        sy = scan.nextInt();  //나이트 y
+        dist = new int[N + 1][N + 1];
     }
 
-    static boolean determination(long len) {
-        // len 만큼의 길이로 랜선들을 잘랐을 때, N 개 만큼의 랜선을 얻을 수 있는가?
-        int sum=0;
-        for(int i=1 ; i<=K; i++){
-            sum+=A[i]/len;
-        }
-        return sum<N ? false : true;
-    }
+    static void bfs() {
+        // 초기화 해주기
+        /* TODO */
+        // [x][y]  = [세로] [가로]       for문 바깥이 세로
 
 
-    // int로 해도 되는 범위인데 L+R했을 때  int 범위 초과함
-    static void pro() {
-        long L = 1, R = Integer.MAX_VALUE, ans = 0;
-        // [L ... R] 범위 안에 정답이 존재한다!
-        // 이분 탐색과 determination 문제를 이용해서 answer를 빠르게 구하자!
-        while(L<=R){
-            long mid=(L+R)/2;    //랜선의 길이는 2^31-1   int 범위
-            if(determination(mid)){     // n개를 얻을 수 있다? 더 키워야지
-                L=mid+1;
-                ans=mid;
-            }else{
-                R=mid-1;  //n개 못 얻었다.  더 작게
+        // BFS 과정 시작
+        /* TODO */
+        Queue<Integer> que= new LinkedList<>();
+        que.add(sx);
+        que.add(sy);
+        dist[sx][sy]=0;
+
+        while (!que.isEmpty()){
+            int x= que.poll();
+            int y=que.poll();
+
+            for(int[] direction : dir){
+                int nx= x+direction[0];
+                int ny= y+direction[1];
+                if( nx>N || ny >N || nx<=0 || ny<=0) continue;
+                if( dist[nx][ny]!=0) continue;  //방문했던곳
+                que.add(nx);
+                que.add(ny);
+                dist[nx][ny]= dist[x][y]+1;
             }
-
         }
-        System.out.println(ans);
+
+
+
+    }
+
+    static void pro() {
+        bfs();
+        while (M-- > 0) {
+            int ex = scan.nextInt();
+            int ey = scan.nextInt();
+            System.out.print(dist[ex][ey]+ " ");
+        }
     }
 
     public static void main(String[] args) {

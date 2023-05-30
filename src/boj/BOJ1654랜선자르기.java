@@ -1,36 +1,55 @@
+package boj;
+
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
-public class Main {
+public class BOJ1654랜선자르기 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static int N, M;
-    static int[] indeg, T_done, T;
-    static ArrayList<Integer>[] adj;
+    static int K, N;
+    static int[] A;
 
     static void input() {
-        // Testcase 가 존재하는 문제이므로 "배열 초기화"에 유의하자
-        /* TODO */
+        K = scan.nextInt();
+        N = scan.nextInt();
+        A = new int[K + 1];
+        for (int i = 1; i <= K; i++) {
+            A[i] = scan.nextInt();
+        }
     }
 
-    static void pro() {
-        Deque<Integer> queue = new LinkedList<>();
-        // 제일 앞에 "정렬될 수 있는" 정점 찾기
-        /* TODO */
+    static boolean determination(long len) {
+        // len 만큼의 길이로 랜선들을 잘랐을 때, N 개 만큼의 랜선을 얻을 수 있는가?
+        int sum=0;
+        for(int i=1 ; i<=K; i++){
+            sum+=A[i]/len;
+        }
+        return sum<N ? false : true;
+    }
 
-        // 위상 정렬 순서대로 T_done 계산을 함께 해주기
-        /* TODO */
+
+    // int로 해도 되는 범위인데 L+R했을 때  int 범위 초과함
+    static void pro() {
+        long L = 1, R = Integer.MAX_VALUE, ans = 0;
+        // [L ... R] 범위 안에 정답이 존재한다!
+        // 이분 탐색과 determination 문제를 이용해서 answer를 빠르게 구하자!
+        while(L<=R){
+            long mid=(L+R)/2;    //랜선의 길이는 2^31-1   int 범위
+            if(determination(mid)){     // n개를 얻을 수 있다? 더 키워야지
+                L=mid+1;
+                ans=mid;
+            }else{
+                R=mid-1;  //n개 못 얻었다.  더 작게
+            }
+
+        }
+        System.out.println(ans);
     }
 
     public static void main(String[] args) {
-        int Q = scan.nextInt();
-        while (Q > 0) {
-            Q--;
-            input();
-            pro();
-        }
+        input();
+        pro();
     }
 
 
