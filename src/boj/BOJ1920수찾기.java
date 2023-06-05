@@ -3,7 +3,7 @@ package boj;
 import java.io.*;
 import java.util.*;
 
-public class BOJ1920 {
+public class BOJ1920수찾기 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
