@@ -1,63 +1,30 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static int n, root, erased;
-    static ArrayList<Integer>[] child;
-    static int[] leaf;
+    static int N;
+    static String[] A, ans;
 
     static void input() {
-        n = scan.nextInt();
-        child = new ArrayList[n];
-        leaf = new int[n];
-        for (int i = 0; i < n; i++) child[i] = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            int par = scan.nextInt();
-            if (par == -1){
-                root = i;
-                continue;
-            }
-            child[par].add(i);
+        N = scan.nextInt();
+        A = new String[N + 1];
+        for (int i = 1; i <= N; i++) {
+            A[i] = scan.nextLine();
         }
-        erased = scan.nextInt();
     }
 
-    // dfs(x, par) := 정점 x 의 부모가 par 였고, Subtree(x) 의 leaf 개수를 세주는 함수
-    // dfs(x, par) := 정점 x 의 부모가 par 였고, Subtree(x) 의 leaf 개수를 세주는 함수
-    static void dfs(int x, int par) {
-        if (child[x].isEmpty())
-            leaf[x]++;
-        for (int y : child[x]) {
-            if (y == par) continue;
-            dfs(y, x);
-            leaf[x] += leaf[y];
-        }
+    static boolean bin_search(String[] A, int L,int R, String X){
+        // A[L ... R] 이 정렬되어 있다고 가정했을 때
+        // 이 안에서 X 를 이분탐색하고, 존재하면 true, 아니면 false 를 return 하는 함수
+        return false;
     }
 
     static void pro() {
-        // erased와 그의 부모 사이의 연결을 끊어주기
-        /* TODO */
-        //erased의 부모에서 erased를 제거해줘야지..
-       for(int i=0; i<n ; i++){
-           if(child[i].contains(erased)){
-               child[i].remove(child[i].indexOf(erased));
-           }
-       }
-
-
-        // erased 가 root 인 예외 처리하기
-        /* TODO */
-        if(erased !=root){
-            dfs(root,-1);  //root부터 조사하는겁니다
-        }
-
-        // 정답 출력하기
-        /* TODO */
-        System.out.println(leaf[root]);
+        // 보도 못한 사람들을 입력 받으면서 듣도 못한 사람들 안에서 찾아주기
+        // 정답을 기록해서 사전순으로 출력해주기
     }
 
     public static void main(String[] args) {
