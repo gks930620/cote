@@ -2,36 +2,45 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
+    static FastReader scan = new FastReader();
 
-    static int N;
-    static String[] A, ans;
+    static int n, S;
+    static int[] a;
 
     static void input() {
-        N = scan.nextInt();
-        A = new String[N + 1];
-        for (int i = 1; i <= N; i++) {
-            A[i] = scan.nextLine();
+        n = scan.nextInt();
+        S = scan.nextInt();
+        a = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            a[i] = scan.nextInt();
         }
     }
 
-    static boolean bin_search(String[] A, int L,int R, String X){
-        // A[L ... R] 이 정렬되어 있다고 가정했을 때
-        // 이 안에서 X 를 이분탐색하고, 존재하면 true, 아니면 false 를 return 하는 함수
-        return false;
-    }
-
     static void pro() {
-        // 보도 못한 사람들을 입력 받으면서 듣도 못한 사람들 안에서 찾아주기
-        // 정답을 기록해서 사전순으로 출력해주기
+        int R = 0, sum = 0, ans = 0;
+        for (int L = 1; L <= n; L++) {
+            // L - 1 을 구간에서 제외하기
+            sum-=a[L-1];
+            // R 을 옮길 수 있을 때 까지 옮기기
+            while (R+1<=n && sum <S){
+                R++;
+                sum+=a[R];
+            }
+            // [L ... R] 의 합, 즉 sum이 조건을 만족하면 정답 갱신하기
+            if( sum==S){
+                ans++;
+            }
+
+        }
+
+        System.out.println(ans);
     }
 
     public static void main(String[] args) {
         input();
         pro();
     }
-
 
     static class FastReader {
         BufferedReader br;

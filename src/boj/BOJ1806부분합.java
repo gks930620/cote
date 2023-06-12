@@ -1,5 +1,3 @@
-package boj;
-
 import java.io.*;
 import java.util.*;
 
@@ -19,18 +17,19 @@ public class BOJ1806부분합 {
         }
     }
 
+    //강의에서는 필요없는 L부분은 확인할 필요 없는 것 처럼 했지만 실제로는 for문으로 한번은 확인.. S가 while문 바로 탈출하고 그 다음 L 확인하는 식임.
     static void pro() {
-        int R = 0, sum = 0, ans = n + 1;
+        int R = 0, sum = 0, ans = n + 1;  //ans 는 가장 짧은 길이
         for (int L = 1; L <= n; L++) {
             // L - 1 을 구간에서 제외하기
             sum-=a[L-1];
             // R 을 옮길 수 있을 때 까지 옮기기
-            while (sum< S && R+1<=n){   //sum이 S이상이 되면 나가면 됨
+            while (R+1<=n &&  sum<S){  //R이 구간 넘어가는지도 확인
                 R++;
                 sum+=a[R];
             }
             // [L ... R] 의 합, 즉 sum이 조건을 만족하면 정답 갱신하기
-            if(sum>=S) {
+            if(sum>=S){   //위의 while문에서 구간을 넘어가는 경우도 있으니까..
                 ans=Math.min(ans,R-L+1);
             }
         }
