@@ -1,46 +1,36 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
-    static StringBuilder sb = new StringBuilder();
     static FastReader scan = new FastReader();
+    static StringBuilder sb = new StringBuilder();
 
-    static int n, S;
-    static int[] a;
+    static int N, M;
+    static ArrayList<Integer>[] adj;
+    static int[] dist;
 
     static void input() {
-        n = scan.nextInt();
-        S = scan.nextInt();
-        a = new int[n + 1];
-        for (int i = 1; i <= n; i++) {
-            a[i] = scan.nextInt();
-        }
+        /* TODO */
+    }
+
+    // start 라는 정점의 케빈 베이컨의 수를 계산해주는 함수
+    static int bfs(int start) {
+        /* TODO */
     }
 
     static void pro() {
-        int R = 0, sum = 0, ans = 0;
-        for (int L = 1; L <= n; L++) {
-            // L - 1 을 구간에서 제외하기
-            sum-=a[L-1];
-            // R 을 옮길 수 있을 때 까지 옮기기
-            while (R+1<=n && sum <S){
-                R++;
-                sum+=a[R];
-            }
-            // [L ... R] 의 합, 즉 sum이 조건을 만족하면 정답 갱신하기
-            if( sum==S){
-                ans++;
-            }
-
-        }
-
-        System.out.println(ans);
+        int minV = bfs(1), minIdx = 1;
+        // 최소의 케빈 베이컨의 수를 갖는 사람 찾기
+        /* TODO */
+        System.out.println(minIdx);
     }
 
     public static void main(String[] args) {
         input();
         pro();
     }
+
 
     static class FastReader {
         BufferedReader br;
