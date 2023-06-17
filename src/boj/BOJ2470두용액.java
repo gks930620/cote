@@ -3,7 +3,7 @@ package boj;
 import java.io.*;
 import java.util.*;
 
-public class BOJ2470 {
+public class BOJ2470두용액 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 

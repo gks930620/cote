@@ -1,5 +1,4 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
@@ -7,24 +6,36 @@ public class Main {
     static StringBuilder sb = new StringBuilder();
 
     static int N, M;
-    static ArrayList<Integer>[] adj;
-    static int[] dist;
+    static int[] A;
 
     static void input() {
-        /* TODO */
+        N = scan.nextInt();  //강의의 개수
+        M = scan.nextInt(); //내가 원하는 블루레이개수
+        A = new int[N + 1];
+        for (int i = 1; i <= N; i++) { //강의의 크기.    강의의 순서 어쩌구는 의미없는 정보라는 생각이 듭니다.
+            A[i] = scan.nextInt();
+        }
     }
 
-    // start 라는 정점의 케빈 베이컨의 수를 계산해주는 함수
-    static int bfs(int start) {
-        /* TODO */
+    static boolean determination(int len) {
+        // TODO
     }
 
     static void pro() {
-        int minV = bfs(1), minIdx = 1;
-        // 최소의 케빈 베이컨의 수를 갖는 사람 찾기
-        /* TODO */
-        System.out.println(minIdx);
+        int L = ?, R = ?, ans = ?;
+
+        while (L <= R) {
+            int mid = (L + R) / 2;
+            if (determination(mid)) {
+                ?
+            } else {
+                ?
+            }
+        }
+        System.out.println(ans);
     }
+
+
 
     public static void main(String[] args) {
         input();
@@ -78,3 +89,15 @@ public class Main {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
