@@ -1,64 +1,61 @@
 package boj;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
-public class BOJ2506작업 {
+public class BOJ5567결혼식 {
     static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
     static int N, M;
-    static int[] indeg, T_done, T;
     static ArrayList<Integer>[] adj;
+    static int[] dist;
+    static boolean[] visit;
 
     static void input() {
-        N = scan.nextInt();
-        adj = new ArrayList[N + 1];
-        indeg = new int[N + 1];
-        T = new int[N + 1];
-        T_done = new int[N + 1];
-        for (int i = 1; i <= N; i++) {
-            adj[i] = new ArrayList<>();
-        }
         /* TODO */
-        for (int i = 1; i <= N; i++) {
-            int time = scan.nextInt();
-            T[i] = time;
-
-            int preCount = scan.nextInt();
-            for (int j = 0; j < preCount; j++) {
-                int pre = scan.nextInt();
-                adj[pre].add(i );     //pre에서 i 로 가는거니까...
-                indeg[i]++;
-            }
+        N = scan.nextInt();
+        M = scan.nextInt();
+        adj=new ArrayList[N+1];
+        dist=new int[N+1];
+        visit=new boolean[N+1];
+        for(int i=1 ; i<=N ; i++){
+            adj[i]=new ArrayList<>();
+        }
+        for(int i=1 ; i<=M ; i++){
+            int x=scan.nextInt();
+            int y=scan.nextInt();
+            adj[x].add(y);
+            adj[y].add(x);
         }
     }
 
-    static void pro() {
+    // start 라는 정점의 결혼식에 올 수 있는 사람 수 찾기
+    static int bfs(int start) {
         /* TODO */
-        Deque<Integer> queue= new LinkedList<>();
-        for(int i=1 ; i<=N ; i++){
-            if(indeg[i]==0) {
-                queue.add(i) ; //첫 시작 점들
-                T_done[i] = T[i];   //이거 빼먹으면 안되지...
-            }
-        }
-        while (!queue.isEmpty()){
-            int x=queue.poll();
+        Queue<Integer> que= new LinkedList<>();
+        que.add(start);
+        visit[start]=true;
+        while (!que.isEmpty()){
+            int x= que.poll();
             for(int y : adj[x]){
-                indeg[y]--;
-                T_done[y]=Math.max(T_done[y], T[y]+T_done[x]  );
-                if(indeg[y]==0) queue.add(y);
+                if(visit[y]) continue;
+                que.add(y);
+                visit[y]=true;
+                dist[y]=dist[x]+1;
             }
         }
 
-        int max=Integer.MIN_VALUE;
-        for(int i=1; i<=N ; i++){
-            max=Math.max(max,T_done[i]);
+        int sum=0;
+        for(int i=2 ; i<=N; i++){
+            if(dist[i] <=2 && dist[i]!=0)  sum++;
         }
-        System.out.println(max);
+        return  sum;
+    }
 
-
+    static void pro() {
+        System.out.println(bfs(1));
     }
 
     public static void main(String[] args) {
