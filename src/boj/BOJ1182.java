@@ -47,11 +47,6 @@ public class BOJ1182 {
         public FastReader() {
             br = new BufferedReader(new InputStreamReader(System.in));
         }
-
-        public FastReader(String s) throws FileNotFoundException {
-            br = new BufferedReader(new FileReader(new File(s)));
-        }
-
         String next() {
             while (st == null || !st.hasMoreElements()) {
                 try {
@@ -62,27 +57,16 @@ public class BOJ1182 {
             }
             return st.nextToken();
         }
-
         int nextInt() {
             return Integer.parseInt(next());
         }
-
         long nextLong() {
             return Long.parseLong(next());
         }
-
         double nextDouble() {
             return Double.parseDouble(next());
         }
 
-        String nextLine() {
-            String str = "";
-            try {
-                str = br.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return str;
-        }
+
     }
 }
